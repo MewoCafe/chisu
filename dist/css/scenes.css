@@ -165,7 +165,7 @@
 .call-sub{position:absolute;left:12%;right:12%;top:62%;min-height:64px;text-align:center;font-size:16px;line-height:1.9;letter-spacing:.12em;color:#f0ede4;font-family:var(--kai)}
 .call-sub.me{color:#a9aba3;font-family:var(--serif);font-size:14px}
 .call-input{position:absolute;left:10%;right:10%;bottom:25%;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;border-bottom:var(--thin) solid #8c8f86}
-.call-input input{-webkit-box-flex:1;flex:1;min-width:0;background:transparent;border:0;color:#efece4;font-size:15px;padding:10px 4px}
+.call-input input{-webkit-box-flex:1;flex:1;min-width:0;background:transparent;border:0;color:#efece4;font-size:16px;padding:10px 4px}
 .call-input input::placeholder{color:#6f726b}
 .call-input button{color:#cfcabd;font-size:13px;letter-spacing:.3em;padding:10px 6px}
 .call-ctrl{position:absolute;left:0;right:0;bottom:7%;display:-webkit-box;display:flex;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center}
@@ -185,3 +185,19 @@
 .float-note .fn-seal{display:block;width:22px;height:22px;margin:0 auto 8px;background:var(--cinnabar);color:#f7ece6;font-size:12px;line-height:22px}
 .float-note .fn-name{display:block;margin:0 auto;font-size:13px;letter-spacing:.3em;-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;max-height:70px;overflow:hidden}
 .float-note .fn-text{display:block;margin:8px auto 0;font-size:11px;line-height:1.6;color:var(--ink-3);-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;max-height:96px;overflow:hidden;font-family:var(--kai)}
+
+/* 键盘占据半屏时，传音的输入与操作仍各有固定位置。 */
+.compact-viewport .call-lamp{top:54px;width:48px;height:48px;margin-left:-24px}
+.compact-viewport .call-lamp img{width:48px;height:48px}
+.compact-viewport .call-name{top:110px;font-size:20px}
+.compact-viewport .call-time{top:140px}
+.compact-viewport .call-wave{display:none}
+.compact-viewport .call-sub{top:168px;bottom:140px;min-height:0;overflow-y:auto;font-size:14px}
+.compact-viewport .call-input{bottom:86px}
+.compact-viewport .call-ctrl{bottom:12px}
+
+.tiny-viewport .call-lamp,.tiny-viewport .call-time,.tiny-viewport .call-sub{display:none}
+.tiny-viewport .call-name{top:74px}
+
+.compact-viewport .call-top .rule-wenwu{display:none}
+.compact-viewport .call-top small{margin-top:3px;font-size:10px}

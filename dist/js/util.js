@@ -30,6 +30,43 @@
     });
   }
 
+  /* 只揭示当前输入框所在的滚动容器，不移动整个页面。 */
+  function lockLayoutScroll(target) {
+    var nodes = target ? [target] : $$('.stage,#app,.view,.sheet-layer,.sheet,#call');
+    nodes.forEach(function (el) {
+      var cl = el.classList;
+      if (!cl || !(el.id === 'app' || el.id === 'call' || cl.contains('stage') || cl.contains('view') || cl.contains('sheet-layer') || cl.contains('sheet'))) return;
+      if (el.scrollTop) el.scrollTop = 0;
+      if (el.scrollLeft) el.scrollLeft = 0;
+    });
+  }
+  function keepInputVisible() {
+    lockLayoutScroll();
+    var input = document.activeElement;
+    if (!input || !/^(INPUT|TEXTAREA|SELECT)$/.test(input.tagName) || input.type === 'file') return;
+    var parent = input.parentNode;
+    while (parent && parent !== document.body) {
+      var cs = W.getComputedStyle(parent);
+      if (/(auto|scroll)/.test(cs.overflowY) && parent.scrollHeight > parent.clientHeight + 1) {
+        var box = parent.getBoundingClientRect(), field = input.getBoundingClientRect();
+        var top = box.top + parent.clientTop + 12, bottom = box.top + parent.clientTop + parent.clientHeight - 12;
+        if (field.height <= bottom - top) {
+          if (field.bottom > bottom) parent.scrollTop += field.bottom - bottom;
+          else if (field.top < top) parent.scrollTop -= top - field.top;
+        }
+      }
+      parent = parent.parentNode;
+    }
+  }
+  function focusInput(input) {
+    try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); }
+    keepInputVisible();
+  }
+  function blurWithin(container) {
+    var active = document.activeElement;
+    if (active && container.contains(active) && active.blur) active.blur();
+  }
+
   /* —— 存储：IndexedDB 优先，失败退回 localStorage —— */
   var DB_NAME = 'chisu', STORE = 'kv', dbp = null;
   function openDB() {
@@ -179,6 +216,7 @@
       layer: layer, body: body, panel: panel, head: head,
       close: function () {
         if (!layer.parentNode) return;
+        blurWithin(layer);
         layer.classList.remove('open');
         var i = sheetStack.indexOf(api); if (i >= 0) sheetStack.splice(i, 1);
         setTimeout(function () { if (layer.parentNode) layer.parentNode.removeChild(layer); }, 260);
@@ -243,6 +281,7 @@
 
   W.ChisuUtil = {
     $: $, $$: $$, h: h, clear: clear, esc: esc,
+    keepInputVisible: keepInputVisible, lockLayoutScroll: lockLayoutScroll, focusInput: focusInput, blurWithin: blurWithin,
     get: idbGet, set: idbSet, saveLater: saveLater, flushAll: flushAll,
     compressImage: compressImage, monogram: monogram, toast: toast,
     sheet: sheet, closeTopSheet: closeTopSheet, confirmSheet: confirmSheet,

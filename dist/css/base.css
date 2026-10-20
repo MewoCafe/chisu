@@ -8,7 +8,7 @@
   --kai:"Kaiti SC","STKaiti","KaiTi","BiauKai","Noto Serif CJK SC",var(--serif);
   --latin:"Didot","Bodoni 72","Cormorant Garamond","Times New Roman",serif;
   --thin:.5px; --bold:1.5px;
-  --vh:100vh; --viewport-top:0px;
+  --vh:100vh; --viewport-top:0px; --input-max-height:260px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#d9d8d2;color:var(--ink);font-family:var(--serif);-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -146,4 +146,9 @@ textarea.field{width:100%;resize:none;line-height:1.8;border:var(--thin) solid v
 /* 编辑时只让局部内容滚动，页眉与输入区留在可视范围内。 */
 .sheet-head{flex-shrink:0}
 .sheet-body,.ed-pane,.chat-stage,.composer textarea{overscroll-behavior:contain;overflow-anchor:none}
-.keyboard-open .folio,.keyboard-open .sheet{padding-bottom:0}
+/* 保留安全区内边距，焦点切换不改变页脚高度。 */
+
+/* 所有可编辑控件至少 16px，避免 iOS 获焦时自动放大。 */
+input,textarea,select{font-size:16px}
+textarea.field{max-height:var(--input-max-height);min-height:64px;overflow-y:auto}
+.sheet,.ed-pane{min-height:0}

@@ -85,7 +85,7 @@
     cur.timer = setInterval(tick, 1000); tick();
     target = 1.5;
     ctrl([
-      key('言', '', '', function () { var f = $('#call-input'); f.hidden = !f.hidden; if (!f.hidden) $('#call-text').focus(); }),
+      key('言', '', '', function () { var f = $('#call-input'); f.hidden = !f.hidden; if (!f.hidden) U.focusInput($('#call-text')); else U.blurWithin(f); }),
       key('止', '', 'hang', hangup),
       key(St.S.settings.tts ? '诵' : '默', St.S.settings.tts ? '诵读' : '不诵', St.S.settings.tts ? 'on' : '', function () {
         St.S.settings.tts = !St.S.settings.tts; St.save('settings');
@@ -109,6 +109,7 @@
     $('#call-name').textContent = role.name;
     $('#call-time').textContent = '';
     U.clear($('#call-sub'));
+    U.blurWithin($('#call'));
     $('#call-input').hidden = true;
     el.classList.add('open', 'ringing');
     target = 0; amp = 0; wave();
@@ -143,6 +144,7 @@
     W.cancelAnimationFrame(cur.raf);
     if (W.speechSynthesis) try { W.speechSynthesis.cancel(); } catch (e) { /* */ }
     cur = null;
+    U.blurWithin($('#call'));
     $('#call').classList.remove('open', 'ringing', 'speaking');
   }
 

@@ -145,7 +145,6 @@
       body.appendChild(h('div', { class: 'seal-row' }, h('button', { class: 'seal-btn', type: 'button', text: '定', onclick: function () {
         var n = inp.value.trim(); if (!n) return; s.close(); done(n);
       } })));
-      setTimeout(function () { inp.focus(); }, 300);
     } });
   }
   function newGroup() { askName('立组', '', function (n) { var g = St.addGroup(St.S.lib, lib, n); group = g.id; pageNo = 0; render(); }); }
@@ -196,7 +195,6 @@
           if (L().items.some(function (i) { return i.text === t; })) { U.toast('库中已有此句。'); return; }
           St.addItem(St.S.lib, lib, { text: t }, chosen.slice()); s.close(); render(); U.toast('已添。');
         } })));
-        setTimeout(function () { ta.focus(); }, 300);
       } });
       return;
     }

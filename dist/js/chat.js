@@ -141,7 +141,7 @@
   function submit(e) {
     if (e) e.preventDefault();
     var input = $('#chat-input'), text = input.value.trim();
-    if (!text) { input.focus(); return; }
+    if (!text) { U.focusInput(input); return; }
     input.value = ''; autosize();
     send({ kind: 'text', text: text });
   }

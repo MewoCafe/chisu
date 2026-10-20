@@ -16,7 +16,7 @@
   };
 
   /* 舞台和弹层跟随可视区域；不强制滚动页面，以免与输入法相互拉扯。 */
-  var fitFrame = 0, layoutTimer = null, lastWidth = 0;
+  var fitFrame = 0, layoutTimer = null, lastWidth = 0, lastHeight = 0, viewportTallest = 0, layoutChanged = false;
   function fit() {
     var vv = W.visualViewport;
     var hgt = vv ? vv.height : W.innerHeight;
@@ -25,15 +25,22 @@
     var root = document.documentElement;
     root.style.setProperty('--vh', Math.round(hgt) + 'px');
     root.style.setProperty('--viewport-top', Math.round(top) + 'px');
-    var editing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '');
-    root.classList.toggle('keyboard-open', editing && W.innerHeight - hgt > 100);
+    root.style.setProperty('--input-max-height', Math.round(Math.max(64, Math.min(260, hgt * 0.32))) + 'px');
+    if (Math.abs(width - lastWidth) > 80) viewportTallest = hgt;
+    viewportTallest = Math.max(viewportTallest, hgt, W.innerHeight);
+    root.classList.toggle('keyboard-open', viewportTallest - hgt > 100);
+    root.classList.toggle('compact-viewport', hgt < 500);
+    root.classList.toggle('tiny-viewport', hgt < 320);
+    layoutChanged = layoutChanged || width !== lastWidth || Math.abs(hgt - lastHeight) > 1;
     if (width !== lastWidth && W.ChisuChat) W.ChisuChat.resetCache();
-    lastWidth = width;
+    lastWidth = width; lastHeight = hgt;
+    if (U.keepInputVisible) U.keepInputVisible();
     clearTimeout(layoutTimer);
     layoutTimer = setTimeout(function () {
       if (!St.S.ready) return;
-      if (current === 'chat') { W.ChisuChat.autosize(); W.ChisuChat.render(); }
-      if (current === 'library') W.ChisuLibrary.render();
+      if (layoutChanged && current === 'chat') { W.ChisuChat.autosize(); W.ChisuChat.render(); }
+      if (layoutChanged && current === 'library') W.ChisuLibrary.render();
+      layoutChanged = false;
     }, 100);
   }
   function requestFit() {
@@ -111,7 +118,14 @@
       W.visualViewport.addEventListener('scroll', requestFit);
     }
     document.addEventListener('focusin', requestFit);
-    document.addEventListener('focusout', requestFit);
+    document.addEventListener('scroll', function (e) { U.lockLayoutScroll(e.target); }, true);
+    document.addEventListener('focusout', function () {
+      requestFit();
+      // 有些手机先派发失焦，键盘动画结束后才更新可视高度。
+      clearTimeout(boot.focusTimer);
+      boot.focusTimer = setTimeout(requestFit, 350);
+    });
+    W.addEventListener('pageshow', requestFit);
     document.addEventListener('touchmove', function (e) {
       // 整页不滚动：只放行可滚的局部容器
       var t = e.target;
