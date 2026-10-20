@@ -1,0 +1,17 @@
+{
+  "name": "尺素",
+  "short_name": "尺素",
+  "description": "一张书案，笔墨纸砚，与故人共书。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f1eb",
+  "theme_color": "#f3f1eb",
+  "icons": [
+    { "src": "icons/icon-192.png?v=3.0.1", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png?v=3.0.1", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png?v=3.0.1", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
