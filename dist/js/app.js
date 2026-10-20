@@ -15,12 +15,30 @@
     home: function () { W.ChisuDesk.refresh(); }
   };
 
-  /* 视口：旧内核无 dvh，以 innerHeight 定高；键盘弹出时随之收缩。 */
+  /* 舞台和弹层跟随可视区域；不强制滚动页面，以免与输入法相互拉扯。 */
+  var fitFrame = 0, layoutTimer = null, lastWidth = 0;
   function fit() {
     var vv = W.visualViewport;
     var hgt = vv ? vv.height : W.innerHeight;
-    document.documentElement.style.setProperty('--vh', Math.round(hgt) + 'px');
-    if (vv && vv.offsetTop) W.scrollTo(0, 0);
+    var top = vv ? Math.max(0, vv.offsetTop) : 0;
+    var width = vv ? vv.width : W.innerWidth;
+    var root = document.documentElement;
+    root.style.setProperty('--vh', Math.round(hgt) + 'px');
+    root.style.setProperty('--viewport-top', Math.round(top) + 'px');
+    var editing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '');
+    root.classList.toggle('keyboard-open', editing && W.innerHeight - hgt > 100);
+    if (width !== lastWidth && W.ChisuChat) W.ChisuChat.resetCache();
+    lastWidth = width;
+    clearTimeout(layoutTimer);
+    layoutTimer = setTimeout(function () {
+      if (!St.S.ready) return;
+      if (current === 'chat') { W.ChisuChat.autosize(); W.ChisuChat.render(); }
+      if (current === 'library') W.ChisuLibrary.render();
+    }, 100);
+  }
+  function requestFit() {
+    if (fitFrame) return;
+    fitFrame = W.requestAnimationFrame(function () { fitFrame = 0; fit(); });
   }
 
   function show(name) {
@@ -86,8 +104,14 @@
 
   function boot() {
     fit();
-    W.addEventListener('resize', function () { fit(); clearTimeout(boot.t); boot.t = setTimeout(function () { W.ChisuChat.resetCache(); if (current === 'chat') W.ChisuChat.render(); if (current === 'library') W.ChisuLibrary.render(); }, 150); });
-    if (W.visualViewport) W.visualViewport.addEventListener('resize', fit);
+    W.addEventListener('resize', requestFit);
+    W.addEventListener('orientationchange', requestFit);
+    if (W.visualViewport) {
+      W.visualViewport.addEventListener('resize', requestFit);
+      W.visualViewport.addEventListener('scroll', requestFit);
+    }
+    document.addEventListener('focusin', requestFit);
+    document.addEventListener('focusout', requestFit);
     document.addEventListener('touchmove', function (e) {
       // 整页不滚动：只放行可滚的局部容器
       var t = e.target;

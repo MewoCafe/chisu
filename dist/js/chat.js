@@ -5,7 +5,7 @@
   var $ = U.$, h = U.h;
 
   var pages = [], page = -1, follow = true, plans = {}, drawerLib = 'kao', drawerGroup = '*';
-  var heightCache = {};
+  var heightCache = {}, composing = false, resizeFrame = 0;
 
   function role() { return St.currentRole(); }
   function list() { return St.S.messages[role().id]; }
@@ -105,10 +105,19 @@
   function status() {
     var r = role(), st = C.roleState(r, new Date());
     var n = E.pendingCount(r.id), txt;
-    if (Ink.writing()) txt = '正落墨';
-    else if (n) txt = '研墨候笔';
+    var writing = list().some(function (m) {
+      var plan = plans[m.id];
+      return plan && Date.now() < plan.start + plan.sched.duration;
+    });
+    if (writing) txt = '落笔成笺';
+    else if (n) txt = '提笔酝词';
     else txt = C.STATE_NAMES[st] + ' · ' + C.shichen(new Date());
-    $('#chat-status').textContent = txt;
+    var mark = $('#chat-status'), busy = !r.travel && (writing || n > 0);
+    if (r.travel) txt = C.STATE_NAMES[st] + ' · ' + C.shichen(new Date());
+    if (mark.textContent !== txt) mark.textContent = txt;
+    mark.classList.toggle('writing-mark', busy);
+    mark.setAttribute('aria-label', r.name + (busy ? '正在输入：' : '，') + txt);
+    $('#chat-who').classList.toggle('is-writing', busy);
     $('#chat-name').textContent = r.name;
     $('#chat-avatar').src = St.avatarOf(r);
     var locked = r.travel;
@@ -138,10 +147,14 @@
   }
 
   function autosize() {
-    var t = $('#chat-input');
+    var t = $('#chat-input'), previous = t.offsetHeight;
+    var limit = Math.min(120, Math.max(44, Math.floor($('#app').clientHeight / 4)));
     t.style.height = '44px';
-    t.style.height = Math.min(120, Math.max(44, t.scrollHeight)) + 'px';
-    t.style.overflowY = t.scrollHeight > 120 ? 'auto' : 'hidden';
+    t.style.height = Math.min(limit, Math.max(44, t.scrollHeight)) + 'px';
+    t.style.overflowY = t.scrollHeight > limit ? 'auto' : 'hidden';
+    if (previous !== t.offsetHeight && !resizeFrame) {
+      resizeFrame = W.requestAnimationFrame(function () { resizeFrame = 0; if (W.ChisuApp.view() === 'chat') render(); });
+    }
   }
 
   /* —— 匣 —— */
@@ -205,8 +218,10 @@
     $('#composer').addEventListener('submit', submit);
     $('#chat-input').addEventListener('input', autosize);
     $('#chat-input').addEventListener('focus', function () { toggleDrawer(false); });
+    $('#chat-input').addEventListener('compositionstart', function () { composing = true; });
+    $('#chat-input').addEventListener('compositionend', function () { composing = false; autosize(); });
     $('#chat-input').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && W.matchMedia('(pointer:fine)').matches) { e.preventDefault(); submit(); }
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && !composing && e.keyCode !== 229 && W.matchMedia('(pointer:fine)').matches) { e.preventDefault(); submit(); }
     });
     $('#box-btn').addEventListener('click', function () { toggleDrawer(); });
     U.$$('#drawer-tabs .tab-v').forEach(function (b) { b.addEventListener('click', function () { drawerLib = b.getAttribute('data-lib'); drawerGroup = '*'; renderDrawer(); }); });
@@ -234,5 +249,5 @@
     if (roleId === role().id && W.ChisuApp.view() === 'chat') render();
   }
 
-  W.ChisuChat = { init: init, render: render, enter: enter, status: status, addNote: addNote, resetCache: function () { heightCache = {}; }, closeDrawer: function () { toggleDrawer(false); } };
+  W.ChisuChat = { init: init, render: render, enter: enter, autosize: autosize, status: status, addNote: addNote, resetCache: function () { heightCache = {}; }, closeDrawer: function () { toggleDrawer(false); } };
 })(window);

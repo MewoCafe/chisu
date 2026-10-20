@@ -158,3 +158,11 @@
 .name-row{display:block;padding:12px 0}
 .name-row>.row-label{display:block;line-height:1.6;margin-bottom:8px}
 .name-row>.field{display:block;width:100%;box-sizing:border-box}
+
+/* 回笔标识：朱砂点如灯，候笔与落墨时轻轻明灭。 */
+.chat-who .t .writing-mark{color:var(--cinnabar);letter-spacing:.16em}
+.writing-mark:before{content:'';display:inline-block;width:5px;height:5px;margin-right:6px;vertical-align:1px;background:var(--cinnabar);border-radius:50%;animation:writing-lamp 1.6s ease-in-out infinite}
+.chat-who.is-writing img{border-color:var(--cinnabar)}
+@keyframes writing-lamp{0%,100%{opacity:.3}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.writing-mark:before{animation:none}}
+.reduced .writing-mark:before{animation:none}

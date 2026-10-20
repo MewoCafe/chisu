@@ -8,7 +8,7 @@
   --kai:"Kaiti SC","STKaiti","KaiTi","BiauKai","Noto Serif CJK SC",var(--serif);
   --latin:"Didot","Bodoni 72","Cormorant Garamond","Times New Roman",serif;
   --thin:.5px; --bold:1.5px;
-  --vh:100vh;
+  --vh:100vh; --viewport-top:0px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#d9d8d2;color:var(--ink);font-family:var(--serif);-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -23,7 +23,7 @@ img{display:block;max-width:100%}
 [hidden]{display:none!important}
 
 /* —— 舞台：手机全屏；宽屏居中成一页纸 —— */
-.stage{position:absolute;left:0;top:0;right:0;bottom:0;display:-webkit-box;display:flex;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center;
+.stage{position:fixed;left:0;top:var(--viewport-top);right:0;height:var(--vh);display:-webkit-box;display:flex;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center;
   background:radial-gradient(ellipse at 30% 20%,#ecebe6,#d6d5ce 70%)}
 .app{position:relative;width:100%;height:100%;height:var(--vh);max-width:480px;overflow:hidden;background:var(--paper);isolation:isolate}
 @media(min-width:560px){
@@ -93,7 +93,7 @@ img{display:block;max-width:100%}
 .row{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;min-height:52px;border-bottom:var(--thin) solid var(--ink-6);padding:6px 0}
 .row>.row-label{-webkit-box-flex:1;flex:1;min-width:0;font-size:14px;letter-spacing:.15em}
 .row>.row-label small{display:block;margin-top:3px;font-size:11px;letter-spacing:.05em;color:var(--ink-4);line-height:1.5}
-.field{border:0;border-bottom:var(--thin) solid var(--ink-3);background:transparent;padding:6px 2px;font-size:15px;border-radius:0;-webkit-appearance:none;appearance:none;min-width:0}
+.field{border:0;border-bottom:var(--thin) solid var(--ink-3);background:transparent;padding:6px 2px;font-size:16px;border-radius:0;-webkit-appearance:none;appearance:none;min-width:0}
 .field:focus{border-bottom-color:var(--ink)}
 .field.num{width:56px;text-align:center}
 .range-line{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;font-size:13px;color:var(--ink-3);letter-spacing:.1em}
@@ -107,7 +107,7 @@ textarea.field{width:100%;resize:none;line-height:1.8;border:var(--thin) solid v
 .chip.add{border-style:dashed}
 
 /* —— 浮层 —— */
-.sheet-layer{position:fixed;left:0;top:0;right:0;bottom:0;z-index:200;background:rgba(31,33,31,0);display:-webkit-box;display:flex;-webkit-box-align:end;align-items:flex-end;-webkit-box-pack:center;justify-content:center;-webkit-transition:background .25s;transition:background .25s}
+.sheet-layer{position:fixed;left:0;top:var(--viewport-top);right:0;height:var(--vh);z-index:200;background:rgba(31,33,31,0);display:-webkit-box;display:flex;-webkit-box-align:end;align-items:flex-end;-webkit-box-pack:center;justify-content:center;-webkit-transition:background .25s;transition:background .25s}
 .sheet-layer.open{background:rgba(31,33,31,.34)}
 .sheet{position:relative;width:100%;max-width:480px;max-height:86%;background:var(--sheet);display:-webkit-box;display:flex;-webkit-box-orient:vertical;flex-direction:column;-webkit-transform:translateY(102%);transform:translateY(102%);-webkit-transition:-webkit-transform .28s cubic-bezier(.2,.7,.2,1);transition:transform .28s cubic-bezier(.2,.7,.2,1);padding-bottom:env(safe-area-inset-bottom)}
 .sheet:before{content:'';position:absolute;left:8px;right:8px;top:8px;bottom:0;border:var(--thin) solid var(--ink-5);border-bottom:0;pointer-events:none}
@@ -142,3 +142,8 @@ textarea.field{width:100%;resize:none;line-height:1.8;border:var(--thin) solid v
 
 /* 旧内核提示 */
 .nomodule-note{position:fixed;left:0;right:0;top:0;bottom:0;z-index:999;background:var(--paper);display:flex;align-items:center;justify-content:center;text-align:center;font-size:15px;line-height:2;letter-spacing:.1em;padding:30px;color:var(--ink-2)}
+
+/* 编辑时只让局部内容滚动，页眉与输入区留在可视范围内。 */
+.sheet-head{flex-shrink:0}
+.sheet-body,.ed-pane,.chat-stage,.composer textarea{overscroll-behavior:contain;overflow-anchor:none}
+.keyboard-open .folio,.keyboard-open .sheet{padding-bottom:0}
