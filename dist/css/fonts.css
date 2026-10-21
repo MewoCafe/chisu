@@ -17,7 +17,7 @@ b,strong,h1,h2,h3,h4,h5,h6{font-weight:normal}
 /* 用户与角色的消息正文，包含颜文字、书信及传音字幕。 */
 .entry-body,.entry.kind-kao .entry-body,
 .letter-text,.letter-text.me,.call-sub,.call-sub.me,
-.zhupi,.float-note .fn-text,.composer textarea,.call-input input{
+.float-note .fn-text,.composer textarea,.call-input input{
   font-family:var(--chat-font);font-weight:normal;
 }
 /* 往来记录等系统说明仍归入界面文字。 */
@@ -29,3 +29,7 @@ h1,h2,h3,.intro-title,.intro-seal,.desk-head .name,.paper-sheet .hd,
 .call-key.hang,.call-key.answer{
   font-family:var(--title-font);font-weight:normal;
 }
+
+/* 朱批采用有笔锋的题字字体，保留原句的聊天正文字体。 */
+.zhupi{font-family:var(--title-font);font-weight:normal;font-size:16px;line-height:1.65;letter-spacing:.08em;-webkit-transform:rotate(-1deg);transform:rotate(-1deg)}
+.zhupi:before{font-family:var(--ui-font);letter-spacing:.14em}

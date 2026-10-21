@@ -33,7 +33,7 @@
       else if (me && m.zhupi && m.zhupi.start >= 0) {
         var t = m.text, z = m.zhupi;
         body.appendChild(document.createTextNode(t.slice(0, z.start)));
-        body.appendChild(h('span', { class: 'quan', text: t.slice(z.start, z.start + z.length) }));
+        body.appendChild(h('span', { class: 'quan ink-' + ((z.start + String(m.id).length) % 3), text: t.slice(z.start, z.start + z.length) }));
         body.appendChild(document.createTextNode(t.slice(z.start + z.length)));
       } else body.textContent = m.text;
     }
@@ -71,13 +71,7 @@
     var stage = $('#chat-stage');
     var avail = stage.clientHeight - 26;
     var msgs = list(), heights = measure(stage);
-    pages = [];
-    var cur = [], used = 0;
-    for (var i = 0; i < msgs.length; i++) {
-      if (cur.length && used + heights[i] > avail) { pages.push(cur); cur = []; used = 0; }
-      cur.push(i); used += heights[i];
-    }
-    if (cur.length || !pages.length) pages.push(cur);
+    pages = C.chatPages(msgs, heights, avail);
   }
 
   function render() {
@@ -95,6 +89,9 @@
       idxs.forEach(function (i) { stage.appendChild(entryNode(msgs[i], msgs[i - 1], true)); });
       if (idxs.length === 1 && stage.scrollHeight > stage.clientHeight + 4) stage.classList.add('tall');
     }
+    var priorHasZhupi = page > 0 && pages[page - 1].some(function (i) { return msgs[i].from === 'me' && msgs[i].zhupi; });
+    $('#pg-prev').textContent = priorHasZhupi ? '前叶·朱批' : '前叶';
+    $('#pg-prev').setAttribute('aria-label', priorHasZhupi ? '前一叶有朱批，翻看' : '前叶');
     $('#pg-prev').disabled = page <= 0;
     $('#pg-next').disabled = page >= pages.length - 1;
     $('.chat-pager').classList.toggle('single', pages.length <= 1);

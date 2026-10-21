@@ -83,3 +83,13 @@ test('仍兼容普通数组、items/cards 导出及换行，空文件和未知�
   assert.throws(()=>C.parseTextImport({customReplies:[null,{},123,'  ']},'收入'),/没有可收入/);
   assert.deepEqual(C.parseTextImport({items:[{text:'甲',groups:['原组']}]},'收入').entries[0].groups,['原组']);
 });
+
+test('朱批原句和随后回笔能放在一叶时，不被自动翻页拆散', () => {
+  const msgs=[{from:'peer'},{from:'me',zhupi:{note:'妙。'}},{from:'peer'},{from:'peer'}];
+  assert.deepEqual(C.chatPages(msgs,[70,35,25,25],100),[[0],[1,2,3]]);
+});
+test('超长朱批和多页回笔正常分页，消息不丢失、不重复', () => {
+  const msgs=[{from:'me',zhupi:{}},{from:'peer'},{from:'peer'},{from:'me'}];
+  assert.deepEqual(C.chatPages(msgs,[120,45,45,30],100),[[0],[1,2],[3]]);
+  assert.deepEqual(C.chatPages([],[],100),[[]]);
+});

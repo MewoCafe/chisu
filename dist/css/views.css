@@ -43,8 +43,10 @@
 .lite .g{-webkit-animation-name:fadein;animation-name:fadein}
 
 /* 朱批 */
-.quan{position:relative;color:inherit}
-.quan:after{content:'';position:absolute;left:-2px;right:-2px;top:2px;bottom:1px;border:1px solid var(--cinnabar);border-radius:48% 52% 46% 54%/56% 44% 58% 42%;opacity:.8;-webkit-transform:rotate(-3deg);transform:rotate(-3deg)}
+.quan{position:relative;display:inline-block;white-space:nowrap;color:inherit}
+.quan:after{content:'';position:absolute;left:-7px;right:-7px;top:-4px;bottom:-4px;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%2052%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20fill%3D%22%23a5402d%22%20opacity%3D%22.9%22%20d%3D%22M105%2010C85%201%2047%200%2025%207C8%2012%201%2022%207%2034C15%2048%2045%2052%2072%2049C98%2047%20117%2038%20117%2025C117%2017%20109%2012%20101%209L100%2010C110%2015%20115%2020%20113%2027C109%2039%2088%2046%2065%2047C40%2048%2018%2043%2012%2033C6%2024%2011%2016%2028%2011C48%205%2082%205%20101%2013Z%22%2F%3E%3Cpath%20d%3D%22M15%2013C4%2019%204%2028%2010%2035M75%2049C93%2047%20109%2040%20115%2030%22%20fill%3D%22none%22%20stroke%3D%22%23a5402d%22%20stroke-width%3D%22.65%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22%2F%3E%3Cpath%20d%3D%22M15%2036C27%2045%2046%2049%2064%2048%22%20fill%3D%22none%22%20stroke%3D%22%23f8f7f2%22%20stroke-width%3D%22.55%22%20opacity%3D%22.65%22%2F%3E%3C%2Fsvg%3E");background-size:100% 100%;background-repeat:no-repeat;pointer-events:none;-webkit-transform:rotate(-4deg);transform:rotate(-4deg)}
+.quan.ink-1:after{-webkit-transform:rotate(3deg) scaleX(-1);transform:rotate(3deg) scaleX(-1);opacity:.9}
+.quan.ink-2:after{-webkit-transform:rotate(-1deg) scaleY(-1);transform:rotate(-1deg) scaleY(-1);opacity:.96}
 .zhupi{margin-top:4px;font-family:var(--kai);font-size:13px;letter-spacing:.12em;color:var(--cinnabar);text-align:right}
 .zhupi:before{content:'朱批 · ';font-size:10px;letter-spacing:.2em;opacity:.7}
 .zhupi.fresh{-webkit-animation:stamp .5s cubic-bezier(.3,1.6,.5,1) both;animation:stamp .5s cubic-bezier(.3,1.6,.5,1) both}

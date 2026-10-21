@@ -157,6 +157,23 @@
     return String(t == null ? '' : t).replace(/\r\n?/g, '\n').trim();
   }
 
+  /* 有空间时把朱批原句与紧随的回笔排在同一叶，避免批语被自动翻走。 */
+  function chatPages(messages, heights, available) {
+    var pages = [], current = [], used = 0;
+    for (var i = 0; i < messages.length; i++) {
+      var m = messages[i], reserve = heights[i];
+      if (m.from === 'me' && m.zhupi && messages[i + 1] && messages[i + 1].from === 'peer') {
+        var pair = heights[i] + heights[i + 1], together = heights[i];
+        for (var j = i + 1; j < messages.length && messages[j].from === 'peer'; j++) together += heights[j];
+        reserve = together <= available ? together : (pair <= available ? pair : heights[i]);
+      }
+      if (current.length && used + reserve > available) { pages.push(current); current = []; used = 0; }
+      current.push(i); used += heights[i];
+    }
+    if (current.length || !pages.length) pages.push(current);
+    return pages;
+  }
+
   /* 同句保留最早编号，并合并所属组；只归一首尾空白和换行。 */
   function dedupeCards(card) {
     var seen = Object.create(null), removed = 0;
@@ -230,7 +247,7 @@
   var api = {
     LIBS: LIBS, LIB_NAMES: LIB_NAMES, STATE_NAMES: STATE_NAMES,
     uid: uid, clampNum: clampNum, normRange: normRange, randBetween: randBetween, pick: pick,
-    rolePool: rolePool, drawReply: drawReply, shichen: shichen, hanNum: hanNum, upperNum: upperNum,
+    rolePool: rolePool, drawReply: drawReply, chatPages: chatPages, shichen: shichen, hanNum: hanNum, upperNum: upperNum,
     durationText: durationText, roleState: roleState, graphemes: graphemes, pickQuan: pickQuan,
     normalizeText: normalizeText, dedupeCards: dedupeCards, parseTextImport: parseTextImport, parseLines: parseLines
   };
