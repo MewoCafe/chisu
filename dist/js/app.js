@@ -31,10 +31,14 @@
     root.classList.toggle('keyboard-open', viewportTallest - hgt > 100);
     root.classList.toggle('compact-viewport', hgt < 500);
     root.classList.toggle('tiny-viewport', hgt < 320);
-    layoutChanged = layoutChanged || width !== lastWidth || Math.abs(hgt - lastHeight) > 1;
+    var resized = width !== lastWidth || Math.abs(hgt - lastHeight) > 1;
+    layoutChanged = layoutChanged || resized;
     if (width !== lastWidth && W.ChisuChat) W.ChisuChat.resetCache();
     lastWidth = width; lastHeight = hgt;
-    if (U.keepInputVisible) U.keepInputVisible();
+    if (resized && U.keepInputVisible) {
+      if (U.releaseFocusScroll) U.releaseFocusScroll();
+      U.keepInputVisible();
+    }
     clearTimeout(layoutTimer);
     layoutTimer = setTimeout(function () {
       if (!St.S.ready) return;
@@ -111,13 +115,18 @@
 
   function boot() {
     fit();
+    U.installInputGuard();
     W.addEventListener('resize', requestFit);
     W.addEventListener('orientationchange', requestFit);
     if (W.visualViewport) {
       W.visualViewport.addEventListener('resize', requestFit);
       W.visualViewport.addEventListener('scroll', requestFit);
     }
-    document.addEventListener('focusin', requestFit);
+    document.addEventListener('focusin', function () {
+      requestFit();
+      // 键盘 Tab 等非点击换焦点也只揭示一次，不在滚动过程中追逐输入框。
+      W.requestAnimationFrame(function () { U.keepInputVisible(); });
+    });
     document.addEventListener('scroll', function (e) { U.lockLayoutScroll(e.target); }, true);
     document.addEventListener('focusout', function () {
       requestFit();

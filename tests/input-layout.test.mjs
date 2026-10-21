@@ -9,15 +9,15 @@ function classes() {
 }
 function viewport(withVisual = true) {
   const css = {}, events = {}, frames = [], timers = new Map(), root = {style:{setProperty:(k,v)=>css[k]=v},classList:classes()};
-  let resets = 0, scrolls = 0, timerID = 0;
+  let resets = 0, scrolls = 0, reveals = 0, timerID = 0;
   const window = {__chisuOK:true,innerHeight:800,innerWidth:390, ChisuCore:{},
-    ChisuUtil:{$:()=>window.testNode},ChisuState:{S:{ready:false},load:()=>new Promise(()=>{})},ChisuEngine:{},
+    ChisuUtil:{$:()=>window.testNode,installInputGuard(){},keepInputVisible(){reveals++;}},ChisuState:{S:{ready:false},load:()=>new Promise(()=>{})},ChisuEngine:{},
     ChisuChat:{resetCache:()=>resets++},scrollTo:()=>scrolls++,
     addEventListener:(k,f)=>events['window:'+k]=f,requestAnimationFrame:f=>{frames.push(f);return frames.length;}};
   if (withVisual) window.visualViewport = {height:800,width:390,offsetTop:0,addEventListener:(k,f)=>events['visual:'+k]=f};
   const document = {documentElement:root,activeElement:null,readyState:'complete',addEventListener:(k,f)=>events['document:'+k]=f};
   runInNewContext(readFileSync(new URL('../dist/js/app.js',import.meta.url),'utf8'),{window,document,setTimeout:fn=>{const id=++timerID;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id)});
-  return {window,document,css,root,events,flush:()=>{while(frames.length)frames.shift()();},resets:()=>resets,scrolls:()=>scrolls,flushTimers:()=>{const pending=Array.from(timers.values());timers.clear();pending.forEach(fn=>fn());}};
+  return {window,document,css,root,events,flush:()=>{while(frames.length)frames.shift()();},resets:()=>resets,scrolls:()=>scrolls,reveals:()=>reveals,flushTimers:()=>{const pending=Array.from(timers.values());timers.clear();pending.forEach(fn=>fn());}};
 }
 test('键盘缩小可视区域和向上平移时，舞台跟随高度与偏移，关闭后复位', () => {
   const x=viewport();
@@ -74,18 +74,18 @@ test('键盘动画期间失焦、切换输入框和安卓布局视口同步缩�
 });
 
 function inputTools() {
-  const document={activeElement:null,body:{},querySelectorAll:()=>[],createElement:()=>({toDataURL:()=>''})};
+  const events={};const document={activeElement:null,body:{},addEventListener:(k,fn)=>events[k]=fn,querySelectorAll:()=>[],createElement:()=>({toDataURL:()=>''})};
   const window={ChisuCore:{},getComputedStyle:el=>({overflowY:el.overflowY||'visible'})};
-  runInNewContext(readFileSync(new URL('../dist/js/util.js',import.meta.url),'utf8'),{window,document});
-  return {U:window.ChisuUtil,document};
+  runInNewContext(readFileSync(new URL('../dist/js/util.js',import.meta.url),'utf8'),{window,document,setTimeout:()=>1,clearTimeout:()=>{}});
+  return {U:window.ChisuUtil,document,events};
 }
 test('输入框被键盘挤出时仅滚动局部容器；已可见时不再移动', () => {
   const {U,document}=inputTools();
   const pane={parentNode:document.body,overflowY:'auto',scrollHeight:600,clientHeight:180,clientTop:0,scrollTop:0,getBoundingClientRect:()=>({top:60})};
   const field={tagName:'TEXTAREA',parentNode:pane,getBoundingClientRect:()=>({top:280-pane.scrollTop,bottom:380-pane.scrollTop,height:100})};
-  document.activeElement=field;U.keepInputVisible();assert.equal(pane.scrollTop,152);
-  U.keepInputVisible();assert.equal(pane.scrollTop,152,'已在容器内，不应重复滚动');
-  pane.scrollTop=300;U.keepInputVisible();assert.equal(pane.scrollTop,208,'只移动足够露出上沿的距离');
+  document.activeElement=field;U.keepInputVisible();assert.equal(pane.scrollTop,140);
+  U.keepInputVisible();assert.equal(pane.scrollTop,140,'已在容器内，不应重复滚动');
+  pane.scrollTop=300;U.keepInputVisible();assert.equal(pane.scrollTop,220,'只移动足够露出上沿的距离');
 });
 test('点击传音输入框使用 preventScroll；关闭容器仅使内部焦点失焦', () => {
   const {U,document}=inputTools();let options=null,blurs=0;
@@ -117,4 +117,52 @@ test('键盘高度变化后紧接着切换焦点仍会重排消息，单纯切�
   x.window.visualViewport.height=360;x.events['visual:resize']();x.flush();
   x.events['document:focusin']();x.flush();x.flushTimers();assert.equal(renders,1);
   x.events['document:focusin']();x.flush();x.flushTimers();assert.equal(renders,1);
+});
+
+test('上下输入框反复点选时，浏览器忽略 preventScroll 也保留表单原位', () => {
+  const {U,document,events}=inputTools();
+  const pane={parentNode:document.body,overflowY:'auto',scrollTop:80,scrollLeft:0,scrollHeight:700,clientHeight:240,clientTop:0,getBoundingClientRect:()=>({top:50})};
+  let focused=0,prevented=0;
+  const input=top=>({tagName:'INPUT',type:'text',parentNode:pane,getBoundingClientRect:()=>({top,bottom:top+35,height:35}),focus(){pane.scrollTop=200;document.activeElement=this;focused++;}});
+  const upper=input(75),lower=input(220);U.installInputGuard();
+  for(const target of [upper,lower,upper,lower]) {
+    events.touchstart({target,touches:[{clientX:90,clientY:100}]});
+    events.touchend({target,preventDefault:()=>prevented++});
+    assert.equal(pane.scrollTop,80,'可见输入框之间换焦点不应移动表单');
+  }
+  assert.equal(focused,4);assert.equal(prevented,4);
+});
+test('已聚焦输入框的光标点选、滑动和文件选择不拦截', () => {
+  const {U,document,events}=inputTools();let prevented=0,focused=0;
+  const input={tagName:'TEXTAREA',focus:()=>focused++};U.installInputGuard();document.activeElement=input;
+  events.touchstart({target:input,touches:[{clientX:10,clientY:10}]});
+  events.touchend({target:input,preventDefault:()=>prevented++});
+  document.activeElement=null;
+  events.touchstart({target:input,touches:[{clientX:10,clientY:10}]});
+  events.touchmove({touches:[{clientX:10,clientY:30}]});
+  events.touchend({target:input,preventDefault:()=>prevented++});
+  events.mousedown({target:{tagName:'INPUT',type:'file'},button:0,preventDefault:()=>prevented++});
+  assert.equal(prevented,0);assert.equal(focused,0);
+});
+test('输入框已经贴近容器边缘但仍完整可见时，不额外加边距推移内容', () => {
+  const {U,document}=inputTools();
+  const pane={parentNode:document.body,overflowY:'auto',scrollHeight:600,clientHeight:180,clientTop:0,scrollTop:24,getBoundingClientRect:()=>({top:60})};
+  document.activeElement={tagName:'INPUT',type:'text',parentNode:pane,getBoundingClientRect:()=>({top:61,bottom:96,height:35})};
+  U.keepInputVisible();assert.equal(pane.scrollTop,24);
+});
+
+test('可视区域只滚动不改变高度时，不再反复把表单拉向焦点', () => {
+  const x=viewport(),before=x.reveals();
+  for(const top of [24,48,36,0]) {
+    x.window.visualViewport.offsetTop=top;x.events['visual:scroll']();x.flush();x.flushTimers();
+  }
+  assert.equal(x.reveals(),before);assert.equal(x.css['--viewport-top'],'0px');
+});
+
+test('聚焦后的延迟原生滚动只在短保护期内还原，手动滚动解除保护', () => {
+  const {U,document}=inputTools();
+  const pane={parentNode:document.body,overflowY:'auto',classList:classes(),scrollTop:80,scrollLeft:0,scrollHeight:700,clientHeight:240,clientTop:0,getBoundingClientRect:()=>({top:50})};
+  const input={tagName:'INPUT',type:'text',parentNode:pane,getBoundingClientRect:()=>({top:100,bottom:135,height:35}),focus(){document.activeElement=this;}};
+  U.focusInput(input);pane.scrollTop=116;U.lockLayoutScroll(pane);assert.equal(pane.scrollTop,80);
+  U.releaseFocusScroll();pane.scrollTop=116;U.lockLayoutScroll(pane);assert.equal(pane.scrollTop,116);
 });

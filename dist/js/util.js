@@ -31,7 +31,15 @@
   }
 
   /* 只揭示当前输入框所在的滚动容器，不移动整个页面。 */
+  var focusScrollState = null, focusScrollTimer = null;
+  function releaseFocusScroll() { focusScrollState = null; clearTimeout(focusScrollTimer); }
   function lockLayoutScroll(target) {
+    // 原生聚焦后的滚动可能延后到下一帧，只短暂保护此次换焦点的位置。
+    if (target && focusScrollState) focusScrollState.forEach(function (p) {
+      if (target !== p.el) return;
+      if (target.scrollTop !== p.top) target.scrollTop = p.top;
+      if (target.scrollLeft !== p.left) target.scrollLeft = p.left;
+    });
     var nodes = target ? [target] : $$('.stage,#app,.view,.sheet-layer,.sheet,#call');
     nodes.forEach(function (el) {
       var cl = el.classList;
@@ -49,7 +57,7 @@
       var cs = W.getComputedStyle(parent);
       if (/(auto|scroll)/.test(cs.overflowY) && parent.scrollHeight > parent.clientHeight + 1) {
         var box = parent.getBoundingClientRect(), field = input.getBoundingClientRect();
-        var top = box.top + parent.clientTop + 12, bottom = box.top + parent.clientTop + parent.clientHeight - 12;
+        var top = box.top + parent.clientTop, bottom = top + parent.clientHeight;
         if (field.height <= bottom - top) {
           if (field.bottom > bottom) parent.scrollTop += field.bottom - bottom;
           else if (field.top < top) parent.scrollTop -= top - field.top;
@@ -59,8 +67,52 @@
     }
   }
   function focusInput(input) {
+    // Safari 部分版本忽略 preventScroll，保留各层原位再只揭示必要部分。
+    var positions = [], parent = input.parentNode;
+    while (parent && parent !== document.body) {
+      positions.push({ el: parent, top: parent.scrollTop, left: parent.scrollLeft });
+      parent = parent.parentNode;
+    }
     try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); }
+    positions.forEach(function (p) {
+      if (p.el.scrollTop !== p.top) p.el.scrollTop = p.top;
+      if (p.el.scrollLeft !== p.left) p.el.scrollLeft = p.left;
+    });
     keepInputVisible();
+    focusScrollState = positions.map(function (p) { return { el: p.el, top: p.el.scrollTop, left: p.el.scrollLeft }; });
+    clearTimeout(focusScrollTimer);
+    focusScrollTimer = setTimeout(releaseFocusScroll, 220);
+  }
+  function installInputGuard() {
+    var touch = null;
+    function editable(target) {
+      if (!target || !/^(INPUT|TEXTAREA)$/.test(target.tagName) || target.disabled || target.readOnly) return null;
+      if (target.tagName === 'INPUT' && /^(file|checkbox|radio|range|button|submit|reset|color|date|time|datetime-local|month|week|hidden)$/.test(target.type)) return null;
+      return target;
+    }
+    document.addEventListener('touchstart', function (e) {
+      var t = e.touches[0], input = editable(e.target);
+      touch = t && input ? { input: input, x: t.clientX, y: t.clientY, moved: false } : null;
+    }, { passive: true });
+    document.addEventListener('touchmove', function (e) {
+      if (!touch || !e.touches[0]) return;
+      var t = e.touches[0];
+      if (Math.abs(t.clientX - touch.x) > 8 || Math.abs(t.clientY - touch.y) > 8) { touch.moved = true; releaseFocusScroll(); }
+    }, { passive: true });
+    document.addEventListener('touchcancel', function () { touch = null; }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+      var tap = touch; touch = null;
+      if (!tap || tap.moved || editable(e.target) !== tap.input || document.activeElement === tap.input) return;
+      // 在同一次用户手势内换焦点，键盘不断开；当前输入框内点选光标仍走原生行为。
+      e.preventDefault(); focusInput(tap.input);
+    }, { passive: false });
+    document.addEventListener('wheel', releaseFocusScroll, { passive: true });
+    document.addEventListener('mousedown', function (e) {
+      var input = editable(e.target);
+      if (!input) releaseFocusScroll();
+      if (e.button !== 0 || !input || document.activeElement === input) return;
+      e.preventDefault(); focusInput(input);
+    });
   }
   function blurWithin(container) {
     var active = document.activeElement;
@@ -281,7 +333,7 @@
 
   W.ChisuUtil = {
     $: $, $$: $$, h: h, clear: clear, esc: esc,
-    keepInputVisible: keepInputVisible, lockLayoutScroll: lockLayoutScroll, focusInput: focusInput, blurWithin: blurWithin,
+    keepInputVisible: keepInputVisible, lockLayoutScroll: lockLayoutScroll, installInputGuard: installInputGuard, releaseFocusScroll: releaseFocusScroll, focusInput: focusInput, blurWithin: blurWithin,
     get: idbGet, set: idbSet, saveLater: saveLater, flushAll: flushAll,
     compressImage: compressImage, monogram: monogram, toast: toast,
     sheet: sheet, closeTopSheet: closeTopSheet, confirmSheet: confirmSheet,
