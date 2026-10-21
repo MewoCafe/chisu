@@ -20,7 +20,7 @@
     return {
       selfName: '我', selfAvatar: '', currentRole: '', introSeen: false,
       wakeLock: false, silentAudio: false, notify: false, floatNote: true,
-      lite: null, reduced: false, tts: false, bookStyle: 'ornate', ver: 3
+      lite: null, reduced: false, tts: false, bookStyle: 'simple', bookStyleChosen: false, ver: 3
     };
   }
 
@@ -124,6 +124,7 @@
       var fresh = !v[0];
       var mig = fresh ? migrateV2() : null;
       S.settings = Object.assign(defaultSettings(), v[0] || (mig && mig.settings) || {});
+      if (!S.settings.bookStyleChosen) S.settings.bookStyle = 'simple';
       S.lib = v[2] || (mig && mig.lib) || defaultLib();
       C.LIBS.forEach(function (k) { if (!S.lib[k]) S.lib[k] = { groups: [], items: [], next: 1 }; });
       var duplicates = C.dedupeCards(S.lib.card);
@@ -203,6 +204,7 @@
     }
     if (!d || d.app !== 'chisu') throw new Error('此卷不是尺素卷宗。');
     S.settings = Object.assign(defaultSettings(), d.settings || {});
+    if (!S.settings.bookStyleChosen) S.settings.bookStyle = 'simple';
     S.roles = (d.roles || []).map(normRole);
     S.lib = d.lib || defaultLib();
     C.dedupeCards(S.lib.card);

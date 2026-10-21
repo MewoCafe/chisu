@@ -1,5 +1,5 @@
 /* 尺素 · 离线：同源静态文件先取网络、断网取缓存；通知点击回到页面。 */
-var VERSION = 'chisu-v3.0.9';
+var VERSION = 'chisu-v3.0.10';
 var FILES = [
   './', 'index.html', 'manifest.webmanifest',
   'css/base.css', 'css/scenes.css', 'css/views.css', 'css/book.css', 'css/fonts.css',

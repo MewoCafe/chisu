@@ -72,6 +72,7 @@
       style.value = S.bookStyle === 'simple' ? 'simple' : 'ornate';
       style.addEventListener('change', function () {
         S.bookStyle = style.value === 'simple' ? 'simple' : 'ornate';
+        S.bookStyleChosen = true;
         St.save('settings'); applyLook();
         W.ChisuChat.resetCache();
         U.toast(S.bookStyle === 'simple' ? '已换素笺案式。' : '已复雅集案式。');
