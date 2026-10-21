@@ -1,0 +1,31 @@
+/* 尺素 · 用户指定字体：正文、标题与界面分开。 */
+@import url("https://fontsapi.zeoseven.com/256/main/result.css");
+@import url("https://fontsapi.zeoseven.com/970/main/result.css");
+@import url("https://fontsapi.zeoseven.com/2103/main/result.css");
+
+:root{
+  --ui-font:"ZhaohuaTypeWriter Light","Songti SC","STSong","SimSun",serif;
+  --chat-font:"Huiwen-mincho",var(--ui-font);
+  --title-font:"XuanZongTi",var(--ui-font);
+  --serif:var(--ui-font);
+  --kai:var(--ui-font);
+  --latin:var(--ui-font);
+}
+html,body{font-family:var(--ui-font);font-weight:normal;font-synthesis:none}
+b,strong,h1,h2,h3,h4,h5,h6{font-weight:normal}
+
+/* 用户与角色的消息正文，包含颜文字、书信及传音字幕。 */
+.entry-body,.entry.kind-kao .entry-body,
+.letter-text,.letter-text.me,.call-sub,.call-sub.me,
+.zhupi,.float-note .fn-text,.composer textarea,.call-input input{
+  font-family:var(--chat-font);font-weight:normal;
+}
+/* 往来记录等系统说明仍归入界面文字。 */
+.entry.kind-call .entry-body,.entry.kind-note .entry-body{font-family:var(--ui-font)}
+
+/* 大字、页面和弹层标题、主要人物名。 */
+h1,h2,h3,.intro-title,.intro-seal,.desk-head .name,.paper-sheet .hd,
+.folio-title h1,.sheet-title,.call-name,.role-row .t b,.chat-who .t b,
+.call-key.hang,.call-key.answer{
+  font-family:var(--title-font);font-weight:normal;
+}

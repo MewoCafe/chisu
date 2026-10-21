@@ -113,6 +113,13 @@
     E.schedule();
   }
 
+  function refreshFontLayout() {
+    if (!St.S.ready) return;
+    W.ChisuChat.resetCache();
+    layoutChanged = true;
+    requestFit();
+  }
+
   function boot() {
     fit();
     U.installInputGuard();
@@ -180,6 +187,11 @@
       document.addEventListener('visibilitychange', function () { if (document.hidden) St.flush(); });
       playIntro();
       E.process();
+      // 远程字体迟于正文到达时，重新计算换行与分页，避免沿用回退字体的高度。
+      if (document.fonts) {
+        document.fonts.ready.then(refreshFontLayout);
+        if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', refreshFontLayout);
+      }
     }).catch(function (e) { console.error(e); U.toast('展卷未成：' + (e && e.message)); });
   }
 
