@@ -20,7 +20,7 @@
     return {
       selfName: '我', selfAvatar: '', currentRole: '', introSeen: false,
       wakeLock: false, silentAudio: false, notify: false, floatNote: true,
-      lite: null, reduced: false, tts: false, ver: 3
+      lite: null, reduced: false, tts: false, bookStyle: 'ornate', ver: 3
     };
   }
 

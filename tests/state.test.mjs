@@ -59,3 +59,19 @@ test('通过卷宗入口收入第三方回复文件时只合并字卡，保留�
   assert.equal(st.currentRole().id,role.id);assert.equal(st.S.messages[role.id][0].id,'keep');
   assert.ok(st.S.lib.card.items.some(i=>i.text==='外部新句'));
 });
+
+test('新卷与旧卷默认雅集案式，素笺选择随卷保存且不改往来', async () => {
+  const {st}=state();await st.load();
+  assert.equal(st.S.settings.bookStyle,'ornate');
+  const role=st.currentRole();
+  st.S.messages[role.id].push({id:'style-keep',from:'me',kind:'text',text:'往来如故。'});
+  st.S.settings.bookStyle='simple';
+  const saved=JSON.parse(st.exportAll());
+  const reloaded=state(saved);await reloaded.st.load();
+  assert.equal(reloaded.st.S.settings.bookStyle,'simple');
+  assert.equal(reloaded.st.S.messages[role.id][0].id,'style-keep');
+  delete saved.settings.bookStyle;
+  const legacy=state(saved);await legacy.st.load();
+  assert.equal(legacy.st.S.settings.bookStyle,'ornate');
+  assert.equal(legacy.st.S.messages[role.id][0].id,'style-keep');
+});

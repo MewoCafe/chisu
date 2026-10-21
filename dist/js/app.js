@@ -160,12 +160,15 @@
       W.ChisuChat.init(); W.ChisuCall.init(); W.ChisuLetters.init();
       W.ChisuLibrary.init(); W.ChisuRoles.init(); W.ChisuKeep.init();
 
-      $('#tool-brush').addEventListener('click', function () { go('chat'); });
-      $('#tool-paper').addEventListener('click', function () { go('letters'); });
-      $('#tool-stone').addEventListener('click', function () { W.ChisuDesk.inkPress(); go('settings'); });
-      $('#tool-ink').addEventListener('click', function () { go('library'); });
-      $('#tool-lamp').addEventListener('click', function () { go('roles'); });
-      $('#desk-who').addEventListener('click', function () { W.ChisuRoles.quickSwitch(); });
+      // 目录式与陈设式共用入口，换案后仍由同一书案接住点击。
+      $('#home').addEventListener('click', function (e) {
+        var t = e.target, routes = { 'tool-brush': 'chat', 'tool-paper': 'letters', 'tool-stone': 'settings', 'tool-ink': 'library', 'tool-lamp': 'roles' };
+        while (t && t !== this) {
+          if (t.id === 'desk-who') { W.ChisuRoles.quickSwitch(); return; }
+          if (routes[t.id]) { if (t.id === 'tool-stone') W.ChisuDesk.inkPress(); go(routes[t.id]); return; }
+          t = t.parentNode;
+        }
+      });
       U.$$('[data-home]').forEach(function (b) { b.addEventListener('click', function () { go('home'); }); });
 
       $('#intro-enter').addEventListener('click', leaveIntro);

@@ -65,7 +65,19 @@
     }
     if (sec === 'look') {
       pane.appendChild(h('div', { class: 'sect-h' }, [h('b', { text: '四' }), '观感']));
-      pane.appendChild(sw('lite', '素简', '去掉纸纹、光影与晕染，旧手机更顺。初次展卷时已按本机性能自动择定。'));
+      var style = h('select', { class: 'field', 'aria-label': '案式' }, [
+        h('option', { value: 'ornate', text: '雅集 · 繁式' }),
+        h('option', { value: 'simple', text: '素笺 · 简式' })
+      ]);
+      style.value = S.bookStyle === 'simple' ? 'simple' : 'ornate';
+      style.addEventListener('change', function () {
+        S.bookStyle = style.value === 'simple' ? 'simple' : 'ornate';
+        St.save('settings'); applyLook();
+        W.ChisuChat.resetCache();
+        U.toast(S.bookStyle === 'simple' ? '已换素笺案式。' : '已复雅集案式。');
+      });
+      pane.appendChild(h('div', { class: 'row desk-style-row' }, [h('span', { class: 'row-label' }, ['案式', h('small', { text: '雅集陈笔墨，素笺留清白。随心换案，往来如故。' })]), style]));
+      pane.appendChild(sw('lite', '轻墨', '去掉纸纹、光影与晕染，旧手机更顺。初次展卷时已按本机性能自动择定。'));
       pane.appendChild(sw('reduced', '少动', '开场与翻卷只留淡入淡出，逐字落墨即时显出。'));
       pane.appendChild(sw('tts', '传音诵读', '传音时以系统语音念出对方的话。'));
       pane.appendChild(h('div', { class: 'seal-row', style: 'justify-content:flex-start' }, h('button', { class: 'link ink', type: 'button', text: '重看开场', onclick: function () { W.ChisuApp.replayIntro(); } })));
@@ -97,6 +109,8 @@
 
   function applyLook() {
     var S = St.S.settings, b = document.body;
+    b.classList.toggle('book-simple', S.bookStyle === 'simple');
+    W.ChisuDesk.applyStyle();
     b.classList.toggle('lite', !!S.lite);
     b.classList.toggle('reduced', !!S.reduced);
   }

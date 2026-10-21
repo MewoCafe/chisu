@@ -1,109 +1,158 @@
-/* 横排古籍：版框用实线绘制，正文留白，不使用位图或模糊滤镜。 */
+/* 背景独立于案式：只调整纸色与界线，不移动原有陈设。 */
 .paper-tex{background-image:none}
-.book-frame{position:absolute;pointer-events:none;border:2px solid var(--ink-2);color:var(--ink-2)}
-.book-frame:before{content:'';position:absolute;left:4px;right:4px;top:4px;bottom:4px;border:1px solid currentColor;opacity:.65}
-.book-fishtail{position:absolute;left:50%;top:-2px;width:18px;height:18px;margin-left:-9px;border-left:1px solid currentColor;border-right:1px solid currentColor;background:var(--paper)}
-.book-fishtail:before,.book-fishtail:after{content:'';position:absolute;left:0;top:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:11px solid currentColor}
-.book-fishtail:after{top:-3px;border-top-color:var(--paper)}
-/* 扉页 */
-.intro-frame{left:24px;right:24px;top:10%;bottom:12%;background:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(61,64,60,.065) 47px,rgba(61,64,60,.065) 48px)}
-.intro-title{left:0;right:0;top:27%;width:auto;margin:0;padding-left:.25em;font-size:76px;letter-spacing:.25em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-.intro-title span{opacity:1;-webkit-filter:none;filter:none}
-.intro.play .intro-title span{-webkit-animation:fadein .6s ease both;animation:fadein .6s ease both}
-.intro.play .intro-title span:nth-child(1),.intro.play .intro-title span:nth-child(2){-webkit-animation-delay:0s;animation-delay:0s}
-.intro-verse,.intro-verse2{left:0;right:0;margin:0;text-align:center;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb;color:var(--ink-3)}
-.intro-verse{top:46%;font-size:19px;letter-spacing:.6em;text-indent:.6em}
-.intro-verse2{top:53%;letter-spacing:.4em;text-indent:.4em}
-.intro-rule{display:none}
-.intro.play .intro-verse,.intro.play .intro-verse2,.intro.play .intro-seal-wrap,.intro.play .intro-foot{-webkit-animation:fadein .6s ease .15s both;animation:fadein .6s ease .15s both}
-.intro-seal-wrap{top:66%}
-.intro-foot{left:26px;right:26px}
-/* 书案是一页目录，所有入口与文字横排。 */
 .desk{background:var(--paper)}
-.desk-frame{left:18px;right:18px;top:26px;top:calc(26px + env(safe-area-inset-top));bottom:22px;bottom:calc(22px + env(safe-area-inset-bottom))}
-.desk-head{left:38px;right:38px;top:56px;top:calc(56px + env(safe-area-inset-top));-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between}
-.desk-head .name{font-size:28px;letter-spacing:.2em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-.desk-head small{font-size:10px;letter-spacing:.1em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-.tool-paper{left:38px;right:38px;top:17%;width:auto;height:40%;-webkit-transform:none;transform:none;border-top:3px double var(--ink-3);border-bottom:3px double var(--ink-3);text-align:left}
-.paper-sheet{border:0;background:transparent;box-shadow:none;background-image:repeating-linear-gradient(0deg,transparent,transparent 35px,rgba(61,64,60,.07) 35px,rgba(61,64,60,.07) 36px);-webkit-transition:opacity .18s;transition:opacity .18s}
-.paper-sheet:before{content:'';position:absolute;left:0;right:0;top:24%;height:48%;background:var(--paper);border-top:1px solid rgba(61,64,60,.13);border-bottom:1px solid rgba(61,64,60,.13)}
-.paper-sheet .ed{top:7%;left:0;right:0;padding:0;border:0;font-size:10px;letter-spacing:.3em;text-align:left}
-.paper-sheet .hd{left:0;right:0;top:33%;text-align:center;font-size:42px;line-height:1.3;letter-spacing:.12em;text-indent:.12em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-.book-verse{position:absolute;left:0;right:0;top:58%;font-size:12px;letter-spacing:.3em;text-align:center;text-indent:.3em;color:var(--ink-3)}
-.paper-sheet .to{left:0;right:90px;top:auto;bottom:8%;max-height:22px;font-size:12px;letter-spacing:.15em;white-space:nowrap;text-overflow:ellipsis;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-.paper-sheet .seal{left:auto;right:0;top:5%;bottom:auto;width:23px;height:23px;font-size:13px;background:var(--paper)}
-.paper-sheet .hint{bottom:8%;right:0;color:var(--ink-3);letter-spacing:.12em;font-size:10px}
-.paper-sheet .hint i{font-style:normal;margin-left:7px}
-.tool:active .paper-sheet{box-shadow:none;opacity:.6}
-.paper-new{right:-6px;top:-12px}
-.desk-index{position:absolute;left:38px;right:38px;top:60%;bottom:126px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
-.desk-index .tool{position:relative;left:auto;right:auto;top:auto;width:auto;height:auto;min-height:62px;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;text-align:left;-webkit-transform:none;transform:none;border-bottom:1px solid var(--ink-5)}
-.desk-index .tool:nth-child(odd){padding-right:12px;border-right:1px solid var(--ink-5)}
-.desk-index .tool:nth-child(even){padding-left:18px}
-.desk-index .tool:nth-child(n+3){border-bottom:0}
-.book-icon{width:25px;height:30px;flex-shrink:0;fill:none;stroke:var(--ink-2);stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}
-.desk-index .tool-cap{position:static;display:block;margin-left:10px}
-.desk-index .tool-cap b{font-size:18px;letter-spacing:.15em;font-family:var(--title-font)}
-.desk-index .tool-cap small{display:block;margin:5px 0 0;font-size:10px;letter-spacing:.1em}
-.index-num{position:absolute;right:10px;top:10px;font-size:9px;color:var(--ink-4)}
-.desk-index .tool:nth-child(even) .index-num{right:0}
-.desk-foot{left:38px;right:38px;bottom:48px;bottom:calc(48px + env(safe-area-inset-bottom))}
-.desk-foot .rule-wenwu{border-color:var(--ink-3);border-bottom-color:var(--ink-4)}
-.who-btn span{letter-spacing:.1em;margin-left:8px}
-.desk-time{font-size:10px;letter-spacing:.1em}
-.desk-time i{margin-left:5px;padding-left:5px}
-.desk.opening .paper-sheet{opacity:.35}
-/* 共书：书口、双边栏与横向界线围住留白，字不压线。 */
-#chat{background:var(--paper)}
-#chat>.rule-wenwu{margin:0 18px;border-color:var(--ink-2);border-bottom-color:var(--ink-3)}
-.chat-paper{margin:0 18px;border-left:2px solid var(--ink-2);border-right:2px solid var(--ink-2);background:var(--sheet)}
-.chat-paper:before{left:4px;right:4px;top:0;bottom:0;width:auto;border-left:1px solid rgba(61,64,60,.5);border-right:1px solid rgba(61,64,60,.5)}
-.chat-running-head{position:absolute;left:12px;right:12px;top:0;height:28px;line-height:28px;text-align:center;font-size:9px;letter-spacing:.35em;color:var(--ink-3);border-bottom:1px solid var(--ink-5)}
-.chat-running-head:before,.chat-running-head:after{content:'';position:absolute;top:0;width:6px;height:7px;background:var(--ink-2)}
-.chat-running-head:before{left:0}.chat-running-head:after{right:0}
-.chat-stage{top:29px;padding:16px 18px 8px;}
-.entry-meta{padding-bottom:5px;border-bottom:1px solid rgba(61,64,60,.11);margin-bottom:7px;color:var(--ink-3)}
-.entry.me{padding-left:12%}
-.entry.peer{padding-right:8%}
-.entry.me .entry-body{color:var(--ink-2);border:0;padding-right:0}
-#chat .chat-pager{margin:0 18px;border:2px solid var(--ink-2);border-top:3px double var(--ink-3);padding:0 14px;background:var(--sheet)}
-#chat .chat-pager.single{min-height:24px;position:relative}
-#chat .chat-pager.single:after{content:'书短意长';font-size:9px;letter-spacing:.4em;color:var(--ink-4);margin:auto}
-#chat .chat-pager.single>*{display:none}
-#chat .chat-pager+.rule-wenwu{display:none}
-#chat .composer{margin:10px 18px 0;padding:4px 0 10px;border-top:1px solid var(--ink-4)}
-#chat .composer-box{margin-right:8px;width:34px}
-#chat .seal-send{margin-left:8px}
+.desk-grain{opacity:1;background-image:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(61,64,60,.055) 47px,rgba(61,64,60,.055) 48px)}
+.desk-light{display:none}
+.desk:before{content:'';position:absolute;left:4%;right:4%;top:2.5%;bottom:1.5%;border:3px double rgba(61,64,60,.32);pointer-events:none}
+.paper-sheet.paper-tex{background-color:var(--sheet);background-image:none}
+#chat{background-color:var(--sheet)}
+#chat .chat-paper{background-image:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(61,64,60,.035) 47px,rgba(61,64,60,.035) 48px)}
+.intro-frame,.chat-running-head{display:none}
+/* 素笺案式保留为可选布局，雅集案式使用原有界面。 */
+.book-simple .intro-frame,.book-simple .chat-running-head{display:block}
+.book-simple .intro-bloom,.book-simple .intro-drop{display:none}
+.book-simple .desk:before{display:none}
+
+.book-simple .paper-tex{background-image:none}
+.book-simple .book-frame{position:absolute;pointer-events:none;border:2px solid var(--ink-2);color:var(--ink-2)}
+.book-simple .book-frame:before{content:'';position:absolute;left:4px;right:4px;top:4px;bottom:4px;border:1px solid currentColor;opacity:.65}
+.book-simple .book-fishtail{position:absolute;left:50%;top:-2px;width:18px;height:18px;margin-left:-9px;border-left:1px solid currentColor;border-right:1px solid currentColor;background:var(--paper)}
+.book-simple .book-fishtail:before,.book-simple .book-fishtail:after{content:'';position:absolute;left:0;top:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:11px solid currentColor}
+.book-simple .book-fishtail:after{top:-3px;border-top-color:var(--paper)}
+.book-simple .intro-frame{left:24px;right:24px;top:10%;bottom:12%;background:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(61,64,60,.065) 47px,rgba(61,64,60,.065) 48px)}
+.book-simple .intro-title{left:0;right:0;top:27%;width:auto;margin:0;padding-left:.25em;font-size:76px;letter-spacing:.25em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+.book-simple .intro-title span{opacity:1;-webkit-filter:none;filter:none}
+.book-simple .intro.play .intro-title span{-webkit-animation:fadein .6s ease both;animation:fadein .6s ease both}
+.book-simple .intro.play .intro-title span:nth-child(1),.book-simple .intro.play .intro-title span:nth-child(2){-webkit-animation-delay:0s;animation-delay:0s}
+.book-simple .intro-verse,.book-simple .intro-verse2{left:0;right:0;margin:0;text-align:center;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb;color:var(--ink-3)}
+.book-simple .intro-verse{top:46%;font-size:19px;letter-spacing:.6em;text-indent:.6em}
+.book-simple .intro-verse2{top:53%;letter-spacing:.4em;text-indent:.4em}
+.book-simple .intro-rule{display:none}
+.book-simple .intro.play .intro-verse,.book-simple .intro.play .intro-verse2,.book-simple .intro.play .intro-seal-wrap,.book-simple .intro.play .intro-foot{-webkit-animation:fadein .6s ease .15s both;animation:fadein .6s ease .15s both}
+.book-simple .intro-seal-wrap{top:66%}
+.book-simple .intro-foot{left:26px;right:26px}
+.book-simple .desk{background:var(--paper)}
+.book-simple .desk-frame{left:18px;right:18px;top:26px;top:calc(26px + env(safe-area-inset-top));bottom:22px;bottom:calc(22px + env(safe-area-inset-bottom))}
+.book-simple .desk-head{left:38px;right:38px;top:56px;top:calc(56px + env(safe-area-inset-top));-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between}
+.book-simple .desk-head .name{font-size:28px;letter-spacing:.2em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+.book-simple .desk-head small{font-size:10px;letter-spacing:.1em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+.book-simple .tool-paper{left:38px;right:38px;top:17%;width:auto;height:40%;-webkit-transform:none;transform:none;border-top:3px double var(--ink-3);border-bottom:3px double var(--ink-3);text-align:left}
+.book-simple .paper-sheet{border:0;background:transparent;box-shadow:none;background-image:repeating-linear-gradient(0deg,transparent,transparent 35px,rgba(61,64,60,.07) 35px,rgba(61,64,60,.07) 36px);-webkit-transition:opacity .18s;transition:opacity .18s}
+.book-simple .paper-sheet:before{content:'';position:absolute;left:0;right:0;top:24%;height:48%;background:var(--paper);border-top:1px solid rgba(61,64,60,.13);border-bottom:1px solid rgba(61,64,60,.13)}
+.book-simple .paper-sheet .ed{top:7%;left:0;right:0;padding:0;border:0;font-size:10px;letter-spacing:.3em;text-align:left}
+.book-simple .paper-sheet .hd{left:0;right:0;top:33%;text-align:center;font-size:42px;line-height:1.3;letter-spacing:.12em;text-indent:.12em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+.book-simple .book-verse{position:absolute;left:0;right:0;top:58%;font-size:12px;letter-spacing:.3em;text-align:center;text-indent:.3em;color:var(--ink-3)}
+.book-simple .paper-sheet .to{left:0;right:90px;top:auto;bottom:8%;max-height:22px;font-size:12px;letter-spacing:.15em;white-space:nowrap;text-overflow:ellipsis;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+.book-simple .paper-sheet .seal{left:auto;right:0;top:5%;bottom:auto;width:23px;height:23px;font-size:13px;background:var(--paper)}
+.book-simple .paper-sheet .hint{bottom:8%;right:0;color:var(--ink-3);letter-spacing:.12em;font-size:10px}
+.book-simple .paper-sheet .hint i{font-style:normal;margin-left:7px}
+.book-simple .tool:active .paper-sheet{box-shadow:none;opacity:.6}
+.book-simple .paper-new{right:-6px;top:-12px}
+.book-simple .desk-index{position:absolute;left:38px;right:38px;top:60%;bottom:126px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.book-simple .desk-index .tool{position:relative;left:auto;right:auto;top:auto;width:auto;height:auto;min-height:62px;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;text-align:left;-webkit-transform:none;transform:none;border-bottom:1px solid var(--ink-5)}
+.book-simple .desk-index .tool:nth-child(odd){padding-right:12px;border-right:1px solid var(--ink-5)}
+.book-simple .desk-index .tool:nth-child(even){padding-left:18px}
+.book-simple .desk-index .tool:nth-child(n+3){border-bottom:0}
+.book-simple .book-icon{width:25px;height:30px;flex-shrink:0;fill:none;stroke:var(--ink-2);stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}
+.book-simple .desk-index .tool-cap{position:static;display:block;margin-left:10px}
+.book-simple .desk-index .tool-cap b{font-size:18px;letter-spacing:.15em;font-family:var(--title-font)}
+.book-simple .desk-index .tool-cap small{display:block;margin:5px 0 0;font-size:10px;letter-spacing:.1em}
+.book-simple .index-num{position:absolute;right:10px;top:10px;font-size:9px;color:var(--ink-4)}
+.book-simple .desk-index .tool:nth-child(even) .index-num{right:0}
+.book-simple .desk-foot{left:38px;right:38px;bottom:48px;bottom:calc(48px + env(safe-area-inset-bottom))}
+.book-simple .desk-foot .rule-wenwu{border-color:var(--ink-3);border-bottom-color:var(--ink-4)}
+.book-simple .who-btn span{letter-spacing:.1em;margin-left:8px}
+.book-simple .desk-time{font-size:10px;letter-spacing:.1em}
+.book-simple .desk-time i{margin-left:5px;padding-left:5px}
+.book-simple .desk.opening .paper-sheet{opacity:.35}
+.book-simple #chat{background:var(--paper)}
+.book-simple #chat>.rule-wenwu{margin:0 18px;border-color:var(--ink-2);border-bottom-color:var(--ink-3)}
+.book-simple .chat-paper{margin:0 18px;border-left:2px solid var(--ink-2);border-right:2px solid var(--ink-2);background:var(--sheet)}
+.book-simple .chat-paper:before{left:4px;right:4px;top:0;bottom:0;width:auto;border-left:1px solid rgba(61,64,60,.5);border-right:1px solid rgba(61,64,60,.5)}
+.book-simple .chat-running-head{position:absolute;left:12px;right:12px;top:0;height:28px;line-height:28px;text-align:center;font-size:9px;letter-spacing:.35em;color:var(--ink-3);border-bottom:1px solid var(--ink-5)}
+.book-simple .chat-running-head:before,.book-simple .chat-running-head:after{content:'';position:absolute;top:0;width:6px;height:7px;background:var(--ink-2)}
+.book-simple .chat-running-head:before{left:0}
+.book-simple .chat-running-head:after{right:0}
+.book-simple .chat-stage{top:29px;padding:16px 18px 8px;}
+.book-simple .entry-meta{padding-bottom:5px;border-bottom:1px solid rgba(61,64,60,.11);margin-bottom:7px;color:var(--ink-3)}
+.book-simple .entry.me{padding-left:12%}
+.book-simple .entry.peer{padding-right:8%}
+.book-simple .entry.me .entry-body{color:var(--ink-2);border:0;padding-right:0}
+.book-simple #chat .chat-pager{margin:0 18px;border:2px solid var(--ink-2);border-top:3px double var(--ink-3);padding:0 14px;background:var(--sheet)}
+.book-simple #chat .chat-pager.single{min-height:24px;position:relative}
+.book-simple #chat .chat-pager.single:after{content:'书短意长';font-size:9px;letter-spacing:.4em;color:var(--ink-4);margin:auto}
+.book-simple #chat .chat-pager.single>*{display:none}
+.book-simple #chat .chat-pager+.rule-wenwu{display:none}
+.book-simple #chat .composer{margin:10px 18px 0;padding:4px 0 10px;border-top:1px solid var(--ink-4)}
+.book-simple #chat .composer-box{margin-right:8px;width:34px}
+.book-simple #chat .seal-send{margin-left:8px}
 @media(max-width:359px){
- .desk-head,.tool-paper,.desk-index,.desk-foot{left:32px;right:32px}
- .desk-head small{font-size:9px}.paper-sheet .hd{font-size:34px}
- .desk-index .tool:nth-child(even){padding-left:10px}.book-icon{width:21px}.desk-index .tool-cap{margin-left:7px}
- .desk-time i{display:none}.who-btn span{font-size:10px}.who-btn b{letter-spacing:.1em}
- .intro-title{font-size:64px}.intro-foot .latin{display:none}
- .chat-stage{padding-left:13px;padding-right:13px}
+.book-simple .desk-head,.book-simple .tool-paper,.book-simple .desk-index,.book-simple .desk-foot{left:32px;right:32px}
+.book-simple .desk-head small{font-size:9px}
+.book-simple .paper-sheet .hd{font-size:34px}
+.book-simple .desk-index .tool:nth-child(even){padding-left:10px}
+.book-simple .book-icon{width:21px}
+.book-simple .desk-index .tool-cap{margin-left:7px}
+.book-simple .desk-time i{display:none}
+.book-simple .who-btn span{font-size:10px}
+.book-simple .who-btn b{letter-spacing:.1em}
+.book-simple .intro-title{font-size:64px}
+.book-simple .intro-foot .latin{display:none}
+.book-simple .chat-stage{padding-left:13px;padding-right:13px}
 }
 @media(max-height:640px){
- .desk-head{top:42px;top:calc(42px + env(safe-area-inset-top))}.desk-head .name{font-size:24px}
- .tool-paper{top:19%;height:35%}.paper-sheet .hd{font-size:34px}.book-verse{font-size:11px;top:59%}
- .desk-index{top:57%;bottom:106px}.desk-index .tool{min-height:54px}
- .desk-foot{bottom:38px;bottom:calc(38px + env(safe-area-inset-bottom))}
- .intro-title{top:24%;font-size:62px}.intro-verse{top:44%}.intro-verse2{top:51%}.intro-seal-wrap{top:63%}
- .intro-seal{width:48px;height:48px;line-height:44px;font-size:24px}.intro-seal-wrap small{margin-top:12px}
+.book-simple .desk-head{top:42px;top:calc(42px + env(safe-area-inset-top))}
+.book-simple .desk-head .name{font-size:24px}
+.book-simple .tool-paper{top:19%;height:35%}
+.book-simple .paper-sheet .hd{font-size:34px}
+.book-simple .book-verse{font-size:11px;top:59%}
+.book-simple .desk-index{top:57%;bottom:106px}
+.book-simple .desk-index .tool{min-height:54px}
+.book-simple .desk-foot{bottom:38px;bottom:calc(38px + env(safe-area-inset-bottom))}
+.book-simple .intro-title{top:24%;font-size:62px}
+.book-simple .intro-verse{top:44%}
+.book-simple .intro-verse2{top:51%}
+.book-simple .intro-seal-wrap{top:63%}
+.book-simple .intro-seal{width:48px;height:48px;line-height:44px;font-size:24px}
+.book-simple .intro-seal-wrap small{margin-top:12px}
 }
 @media(max-height:440px){
- .desk{overflow-y:auto}.desk-frame{height:490px;bottom:auto}.desk-head{top:44px}.tool-paper{top:98px;height:180px}.desk-index{top:294px;bottom:auto;height:110px}.desk-foot{top:430px;bottom:auto}
- .chat-running-head{height:20px;line-height:20px}.chat-stage{top:21px;padding-top:8px;padding-bottom:4px}
- #chat .composer{margin-top:5px;padding-bottom:4px}
+.book-simple .desk{overflow-y:auto}
+.book-simple .desk-frame{height:490px;bottom:auto}
+.book-simple .desk-head{top:44px}
+.book-simple .tool-paper{top:98px;height:180px}
+.book-simple .desk-index{top:294px;bottom:auto;height:110px}
+.book-simple .desk-foot{top:430px;bottom:auto}
+.book-simple .chat-running-head{height:20px;line-height:20px}
+.book-simple .chat-stage{top:21px;padding-top:8px;padding-bottom:4px}
+.book-simple #chat .composer{margin-top:5px;padding-bottom:4px}
 }
-.desk-index .book-icon{width:25px;height:30px;overflow:visible;-webkit-filter:none;filter:none}
-.desk-index .tool-cap{-webkit-transform:none;transform:none;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-@media(max-width:359px){.desk-index .book-icon{width:21px}}
-#chat .seal-mini{width:48px}
-#chat .seal-mini span{padding:7px 5px;white-space:nowrap;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-#chat .seal-send{width:50px;padding:0;white-space:nowrap}
+.book-simple .desk-index .book-icon{width:25px;height:30px;overflow:visible;-webkit-filter:none;filter:none}
+.book-simple .desk-index .tool-cap{-webkit-transform:none;transform:none;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+@media(max-width:359px){
+.book-simple .desk-index .book-icon{width:21px}}
+.book-simple #chat .seal-mini{width:48px}
+.book-simple #chat .seal-mini span{padding:7px 5px;white-space:nowrap;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
+.book-simple #chat .seal-send{width:50px;padding:0;white-space:nowrap}
 @media(max-height:440px){
- .desk{overflow:hidden}.desk-frame{top:10px;bottom:10px;height:auto}.desk-head{top:24px}.desk-head .name{font-size:22px}
- .tool-paper{top:67px;height:30%}.paper-sheet .ed,.paper-sheet .seal,.book-verse{display:none}.paper-sheet .hd{top:14%;font-size:28px}.paper-sheet .to,.paper-sheet .hint{bottom:10%}
- .desk-index{top:52%;bottom:74px;height:auto}.desk-index .tool{min-height:36px}.desk-index .tool-cap b{font-size:15px}.desk-index .tool-cap small,.index-num{display:none}
- .desk-foot{top:auto;bottom:24px}.who-btn{min-height:32px}.who-btn img{width:24px;height:24px}
+.book-simple .desk{overflow:hidden}
+.book-simple .desk-frame{top:10px;bottom:10px;height:auto}
+.book-simple .desk-head{top:24px}
+.book-simple .desk-head .name{font-size:22px}
+.book-simple .tool-paper{top:67px;height:30%}
+.book-simple .paper-sheet .ed,.book-simple .paper-sheet .seal,.book-simple .book-verse{display:none}
+.book-simple .paper-sheet .hd{top:14%;font-size:28px}
+.book-simple .paper-sheet .to,.book-simple .paper-sheet .hint{bottom:10%}
+.book-simple .desk-index{top:52%;bottom:74px;height:auto}
+.book-simple .desk-index .tool{min-height:36px}
+.book-simple .desk-index .tool-cap b{font-size:15px}
+.book-simple .desk-index .tool-cap small,.book-simple .index-num{display:none}
+.book-simple .desk-foot{top:auto;bottom:24px}
+.book-simple .who-btn{min-height:32px}
+.book-simple .who-btn img{width:24px;height:24px}
 }
+
+/* 案式说明与选择分行，窄屏不相挤。 */
+.desk-style-row{display:block}
+.desk-style-row .row-label{display:block}
+.desk-style-row select{display:block;width:100%;margin-top:10px;font-size:16px}
