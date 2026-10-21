@@ -69,7 +69,8 @@
 
   function paginate() {
     var stage = $('#chat-stage');
-    var avail = stage.clientHeight - 26;
+    var style = W.getComputedStyle(stage);
+    var avail = stage.clientHeight - (parseFloat(style.paddingTop) || 0) - (parseFloat(style.paddingBottom) || 0) - 2;
     var msgs = list(), heights = measure(stage);
     pages = C.chatPages(msgs, heights, avail);
   }

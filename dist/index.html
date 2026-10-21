@@ -10,28 +10,22 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="尺素">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/favicon-32.png?v=3.0.7" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="icons/icon-192.png?v=3.0.7">
+<link rel="icon" href="icons/favicon-32.png?v=3.0.8" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/icon-192.png?v=3.0.8">
 <title>尺素</title>
 <link rel="preconnect" href="https://fontsapi.zeoseven.com" crossorigin>
-<link rel="stylesheet" href="css/base.css?v=3.0.7">
-<link rel="stylesheet" href="css/scenes.css?v=3.0.7">
-<link rel="stylesheet" href="css/views.css?v=3.0.7">
-<link rel="stylesheet" href="css/fonts.css?v=3.0.7">
+<link rel="stylesheet" href="css/base.css?v=3.0.8">
+<link rel="stylesheet" href="css/scenes.css?v=3.0.8">
+<link rel="stylesheet" href="css/views.css?v=3.0.8">
+<link rel="stylesheet" href="css/book.css?v=3.0.8">
+<link rel="stylesheet" href="css/fonts.css?v=3.0.8">
 </head>
 <body>
 <div class="stage"><div id="app" class="app paper-tex">
 
 <!-- 开场 -->
 <section id="intro" class="intro paper-tex" aria-label="开场">
-  <svg class="intro-bloom" viewBox="0 0 400 400" aria-hidden="true">
-    <defs>
-      <radialGradient id="bloom-g"><stop offset="0" stop-color="#1f211f" stop-opacity=".9"/><stop offset=".35" stop-color="#2d302c" stop-opacity=".45"/><stop offset=".7" stop-color="#4a4d47" stop-opacity=".12"/><stop offset="1" stop-color="#4a4d47" stop-opacity="0"/></radialGradient>
-      <filter id="bloom-f" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="46"/></filter>
-    </defs>
-    <circle cx="200" cy="200" r="170" fill="url(#bloom-g)" filter="url(#bloom-f)"/>
-  </svg>
-  <div class="intro-drop" aria-hidden="true"></div>
+  <div class="book-frame intro-frame" aria-hidden="true"><i class="book-fishtail"></i></div>
   <div class="intro-rule top" aria-hidden="true"><div class="rule-wenwu"></div></div>
   <h1 class="intro-title"><span>尺</span><span>素</span></h1>
   <p class="intro-verse">见字如晤</p>
@@ -44,63 +38,37 @@
 
 <!-- 书案 -->
 <section id="home" class="view desk active" aria-label="书案">
-  <div class="desk-grain" aria-hidden="true"></div>
-  <div class="desk-light" aria-hidden="true"><i></i><i></i><i></i></div>
-  <header class="desk-head"><span class="name">尺素</span><span class="vrule" aria-hidden="true"></span><small>一案清欢</small></header>
-
-  <button class="tool tool-lamp" id="tool-lamp" aria-label="案头灯，人物">
-    <span class="lamp-glow" aria-hidden="true"></span>
-    <svg class="lamp-svg" viewBox="0 0 100 120" aria-hidden="true">
-      <defs>
-        <linearGradient id="lamp-b" x1="0" x2="1"><stop stop-color="#5d5d54"/><stop offset=".45" stop-color="#9a9686"/><stop offset="1" stop-color="#4c4d46"/></linearGradient>
-        <radialGradient id="flame-g" cx=".5" cy=".7" r=".6"><stop stop-color="#fffbe9"/><stop offset=".5" stop-color="#f6d892"/><stop offset="1" stop-color="#d9894b" stop-opacity=".2"/></radialGradient>
-      </defs>
-      <ellipse cx="50" cy="112" rx="24" ry="5" fill="#3c3e38" opacity=".18"/>
-      <path d="M30 110q20-8 40 0v-3q-20-7-40 0z" fill="url(#lamp-b)"/>
-      <rect x="46" y="74" width="8" height="34" fill="url(#lamp-b)"/>
-      <path d="M44 80h12M44 96h12" stroke="#c9c5b3" stroke-width=".6" opacity=".6"/>
-      <path d="M17 64q33 22 66 0q-6 12-33 12t-33-12z" fill="url(#lamp-b)"/>
-      <ellipse cx="50" cy="64" rx="33" ry="5" fill="#2e302b"/>
-      <ellipse cx="50" cy="63.4" rx="29" ry="3.6" fill="#4a4a3e" opacity=".7"/>
-      <path d="M50 64l7-4" stroke="#d8d2bd" stroke-width="1.6" stroke-linecap="round"/>
-      <g class="flame"><path d="M57 59c4-6 4-13-1-22 0 7-6 10-6 16 0 4 3 6 7 6z" fill="url(#flame-g)"/><path d="M56.5 58c1.6-2.6 1.4-5.6-.6-8.6-.4 3-2.6 4.2-2.4 6.4.1 1.4 1.4 2.2 3 2.2z" fill="#fffef6"/></g>
-    </svg>
-    <span class="tool-cap v"><b>灯</b><small id="lamp-state">秉烛</small></span>
-  </button>
-
+  <div class="book-frame desk-frame" aria-hidden="true"><i class="book-fishtail"></i></div>
+  <header class="desk-head"><span class="name">尺素</span><small>一案清欢 · 一纸相知</small></header>
   <button class="tool tool-paper" id="tool-paper" aria-label="案上信笺，尺牍">
-    <span class="paper-under" aria-hidden="true"></span>
-    <span class="paper-sheet paper-tex">
-      <span class="ed">尺 素 · 卷 一</span>
-      <span class="col" style="left:31%"></span><span class="col" style="left:52%"></span>
+    <span class="paper-sheet">
+      <span class="ed">尺素 · 尺牍集</span>
       <span class="hd">见字如晤</span>
+      <span class="book-verse">欲尽此情书尺素</span>
       <span class="to" id="paper-to">致 君</span>
       <span class="seal" aria-hidden="true">素</span>
-      <span class="hint">展 笺</span>
+      <span class="hint">展笺阅信 <i aria-hidden="true">→</i></span>
     </span>
     <span class="paper-new" id="paper-new" hidden>新札</span>
-    <span class="tool-cap"><b>笺</b><small>尺牍往来</small></span>
   </button>
-
-  <button class="tool tool-stone" id="tool-stone" aria-label="砚台，案边事">
-    <svg viewBox="0 0 164 210" aria-hidden="true"><defs><linearGradient id="st-a" x1="0" x2="1" y2=".9"><stop stop-color="#72716e"/><stop offset=".2" stop-color="#4a4b48"/><stop offset=".65" stop-color="#555551"/><stop offset="1" stop-color="#333633"/></linearGradient><linearGradient id="st-r" x1="0" x2=".9" y2="1"><stop stop-color="#92918a"/><stop offset=".24" stop-color="#5b5d55"/><stop offset="1" stop-color="#2b2f2b"/></linearGradient><radialGradient id="st-i" cx=".3" cy=".2" r=".95"><stop stop-color="#414943"/><stop offset=".42" stop-color="#1d2520"/><stop offset="1" stop-color="#101713"/></radialGradient></defs><path d="M22 20Q77 4 139 18L149 178Q146 194 130 197L32 194Q15 193 13 178Z" fill="#2e3330"/><path d="M21 16Q84 2 139 15L146 172Q143 187 129 190L31 187Q17 185 14 171Z" fill="url(#st-a)"/><path d="M23 20Q78 9 135 19L141 171Q137 181 128 184L32 181Q24 179 20 170Z" fill="url(#st-r)"/><path d="M30 30Q78 20 127 30L132 151Q129 166 117 169L43 167Q30 164 28 152Z" fill="#343c35"/><path d="M34 34Q80 25 123 34L128 144Q128 156 118 160L45 159Q35 157 33 147Z" fill="url(#st-i)"/><path d="M43 41Q79 33 115 40" fill="none" stroke="#adb3a7" stroke-width="1" opacity=".35"/><path d="M25 21Q79 9 135 21M21 170q3 10 12 12" fill="none" stroke="#b4b3a7" stroke-width=".7" opacity=".5"/></svg>
-    <span class="ink-pool" id="ink-pool" aria-hidden="true"><i></i><i></i></span>
-    <span class="tool-cap"><b>砚</b><small>案边事</small></span>
-  </button>
-
-  <span class="brush-rest" aria-hidden="true"></span>
-  <button class="tool tool-brush" id="tool-brush" aria-label="毛笔，共书">
-    <span class="brush-visual" id="brush-visual">
-      <svg viewBox="0 0 72 560" aria-hidden="true"><defs><linearGradient id="br-b" x1="0" x2="1"><stop stop-color="#a48d76"/><stop offset=".23" stop-color="#ded1ba"/><stop offset=".53" stop-color="#c9b99b"/><stop offset=".82" stop-color="#e8ddc9"/><stop offset="1" stop-color="#9d8870"/></linearGradient><linearGradient id="br-h" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#f1eae0"/><stop offset=".47" stop-color="#c4b9a7"/><stop offset=".7" stop-color="#7b776d"/><stop offset=".88" stop-color="#3b3c37"/><stop offset="1" stop-color="#1f2422"/></linearGradient><linearGradient id="br-c"><stop stop-color="#353938"/><stop offset=".48" stop-color="#747773"/><stop offset="1" stop-color="#282c2b"/></linearGradient></defs><path d="M34 24c-12-18-10-20-1-21 11-1 18 1 4 21" fill="none" stroke="#7a746a" stroke-width="1.1"/><path d="M29 25Q35 21 42 25L41 423Q35 430 29 423Z" fill="url(#br-b)"/><path d="M29 27q6-3 13 0M29 44q6 3 13 0M29 372q6 3 12 0" stroke="#96836b" stroke-width=".8" opacity=".7" fill="none"/><path d="m29 378 12 0-1 50-11 0Z" fill="url(#br-c)"/><path d="M29 425C24 449 23 462 28 484c4 18 6 29 5 53 8-13 16-39 15-56-1-20-5-40-8-56Z" fill="url(#br-h)"/><g fill="none" stroke-width=".55"><path d="M29 431c-2 34 0 55 5 86M35 429c5 35 5 62 0 96M40 433c9 33 5 64-5 94" stroke="#e4ded0" opacity=".7"/><path d="M26 457c2 30 9 44 8 69M43 455c5 32-3 59-9 78" stroke="#3f423d" opacity=".56"/></g></svg>
-    </span>
-    <span class="tool-cap v"><b>笔</b><small>执笔共书</small></span>
-  </button>
-
-  <button class="tool tool-ink" id="tool-ink" aria-label="墨锭，墨藏">
-    <span class="ink-body"><span>松烟</span></span>
-    <span class="tool-cap"><b>墨</b><small>墨藏</small></span>
-  </button>
-
+  <nav class="desk-index" aria-label="案上四事">
+    <button class="tool tool-brush" id="tool-brush" aria-label="毛笔，共书">
+      <svg class="book-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m23 3 5 5-13 13-5-5zM10 16c-7 2-2 9-7 13 8-1 13-3 12-8M20 6l5 5"/></svg>
+      <span class="tool-cap"><b>共书</b><small>执笔叙话</small></span><span class="index-num" aria-hidden="true">壹</span>
+    </button>
+    <button class="tool tool-lamp" id="tool-lamp" aria-label="案头灯，人物">
+      <svg class="book-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 15h22c-1 6-21 6-22 0ZM16 20v7M9 28h14M17 12c6-3-1-5 1-10-8 5-8 9-1 10Z"/></svg>
+      <span class="tool-cap"><b>故人</b><small id="lamp-state">秉烛</small></span><span class="index-num" aria-hidden="true">贰</span>
+    </button>
+    <button class="tool tool-ink" id="tool-ink" aria-label="墨锭，墨藏">
+      <svg class="book-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 4h16v24H8zM11 7h10v18H11zM14 12h4M14 16h4M14 20h4"/></svg>
+      <span class="tool-cap"><b>墨藏</b><small>字卡入集</small></span><span class="index-num" aria-hidden="true">叁</span>
+    </button>
+    <button class="tool tool-stone" id="tool-stone" aria-label="砚台，案边事">
+      <svg class="book-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 4q8-3 16 0l2 23q-10 3-20 0ZM11 8q5-2 10 0l1 12H10zM11 24h10"/></svg>
+      <span class="tool-cap"><b>案边</b><small>理案调墨</small></span><span class="index-num" aria-hidden="true">肆</span>
+    </button>
+  </nav>
   <footer class="desk-foot">
     <div class="rule-wenwu"></div>
     <div class="desk-foot-row">
@@ -118,7 +86,7 @@
     <button class="seal-mini" id="call-btn" aria-label="传音"><span>传音</span></button>
   </header>
   <div class="rule-wenwu"></div>
-  <div class="chat-paper"><div id="chat-stage" class="chat-stage" aria-live="polite"></div></div>
+  <div class="chat-paper"><span class="chat-running-head" aria-hidden="true">尺素 · 共书</span><div id="chat-stage" class="chat-stage" aria-live="polite"></div></div>
   <div class="folio-foot chat-pager"><button class="link" id="pg-prev">前叶</button><span class="pager-num" id="pg-num"></span><button class="link" id="pg-next">后叶</button></div>
   <div class="rule-wenwu flip"></div>
   <form class="composer" id="composer" autocomplete="off">
@@ -220,19 +188,19 @@
 /* 旧内核探测：不支持 ES2017 async 函数时，提示换器具，免得白屏。 */
 (function(){try{new Function('async function f(){await 0}; var a=(x)=>x; let b=`t`;');window.__chisuOK=true}catch(e){document.write('<div class="nomodule-note">此器太旧，尺素展不开。<br>请改用较新的浏览器（Chrome / 夸克 / Via 皆可）。</div>')}})();
 </script>
-<script src="js/core.js?v=3.0.7"></script>
-<script src="js/util.js?v=3.0.7"></script>
-<script src="js/state.js?v=3.0.7"></script>
-<script src="js/engine.js?v=3.0.7"></script>
-<script src="js/ink.js?v=3.0.7"></script>
-<script src="js/desk.js?v=3.0.7"></script>
-<script src="js/chat.js?v=3.0.7"></script>
-<script src="js/call.js?v=3.0.7"></script>
-<script src="js/letters.js?v=3.0.7"></script>
-<script src="js/library.js?v=3.0.7"></script>
-<script src="js/roles.js?v=3.0.7"></script>
-<script src="js/keepalive.js?v=3.0.7"></script>
-<script src="js/settings.js?v=3.0.7"></script>
-<script src="js/app.js?v=3.0.7"></script>
+<script src="js/core.js?v=3.0.8"></script>
+<script src="js/util.js?v=3.0.8"></script>
+<script src="js/state.js?v=3.0.8"></script>
+<script src="js/engine.js?v=3.0.8"></script>
+<script src="js/ink.js?v=3.0.8"></script>
+<script src="js/desk.js?v=3.0.8"></script>
+<script src="js/chat.js?v=3.0.8"></script>
+<script src="js/call.js?v=3.0.8"></script>
+<script src="js/letters.js?v=3.0.8"></script>
+<script src="js/library.js?v=3.0.8"></script>
+<script src="js/roles.js?v=3.0.8"></script>
+<script src="js/keepalive.js?v=3.0.8"></script>
+<script src="js/settings.js?v=3.0.8"></script>
+<script src="js/app.js?v=3.0.8"></script>
 </body>
 </html>
