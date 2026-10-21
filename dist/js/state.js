@@ -173,13 +173,33 @@
   function exportAll() {
     return JSON.stringify({ app: 'chisu', ver: 3, at: Date.now(), settings: S.settings, roles: S.roles, lib: S.lib, messages: S.messages, letters: S.letters }, null, 1);
   }
+  function importTextData(key, data, fallbackName) {
+    var parsed = C.parseTextImport(data, fallbackName), library = S.lib[key];
+    var groupIds = Object.create(null), have = Object.create(null), added = 0, skipped = parsed.duplicates;
+    library.groups.forEach(function (g) { if (!groupIds[g.name]) groupIds[g.name] = g.id; });
+    library.items.forEach(function (item) { have[C.normalizeText(item.text)] = item; });
+    var firstGroup = '';
+    parsed.entries.forEach(function (entry) {
+      var ids = entry.groups.map(function (name) {
+        if (!groupIds[name]) groupIds[name] = addGroup(S.lib, key, name).id;
+        if (!firstGroup) firstGroup = groupIds[name];
+        return groupIds[name];
+      });
+      var existing = have[entry.text];
+      if (existing) {
+        ids.forEach(function (id) { if (existing.groups.indexOf(id) < 0) existing.groups.push(id); });
+        skipped++;
+      } else { have[entry.text] = addItem(S.lib, key, { text: entry.text }, ids); added++; }
+    });
+    save('lib');
+    return { added: added, skipped: skipped, total: parsed.entries.length, groupId: firstGroup };
+  }
+
   function importAll(text) {
     var d = JSON.parse(text);
-    if (d && Array.isArray(d.cards)) { // 旧版字卡导出
-      var g = addGroup(S.lib, 'card', '收入');
-      var before = S.lib.card.items.length;
-      d.cards.forEach(function (c) { var t = C.normalizeText(typeof c === 'string' ? c : c && c.text); if (t) addItem(S.lib, 'card', { text: t }, [g.id]); });
-      save('lib'); return '已收入旧版字卡 ' + (S.lib.card.items.length - before) + ' 张（重复已合并）。';
+    if (d && (Array.isArray(d.cards) || Array.isArray(d.customReplies) || Array.isArray(d.replies) || d.cardGrouping)) {
+      var result = importTextData('card', d, '收入');
+      return '已收入字卡 ' + result.added + ' 张，略去重复 ' + result.skipped + ' 张。';
     }
     if (!d || d.app !== 'chisu') throw new Error('此卷不是尺素卷宗。');
     S.settings = Object.assign(defaultSettings(), d.settings || {});
@@ -198,6 +218,6 @@
     S: S, load: load, save: save, saveAll: saveAll, flush: flush,
     newRole: newRole, normRole: normRole, roleById: roleById, currentRole: currentRole,
     avatarOf: avatarOf, selfAvatar: selfAvatar, addGroup: addGroup, addItem: addItem,
-    exportAll: exportAll, importAll: importAll
+    exportAll: exportAll, importAll: importAll, importTextData: importTextData
   };
 })(window);

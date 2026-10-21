@@ -174,6 +174,48 @@
     return removed;
   }
 
+  /* 字卡文件兼容：尺素 items/cards、回复 customReplies 与分组 replies。 */
+  function parseTextImport(data, fallbackName) {
+    var entries = [], seen = Object.create(null), duplicates = 0, recognized = false;
+    var fallback = normalizeText(fallbackName) || '收入';
+    function readText(x) { return typeof x === 'string' ? normalizeText(x) : (x && typeof x.text === 'string' ? normalizeText(x.text) : ''); }
+    function add(values, name, mirror) {
+      if (!Array.isArray(values)) return;
+      recognized = true;
+      values.forEach(function (x) {
+        var text = readText(x); if (!text) return;
+        var names = name ? [name] : (x && Array.isArray(x.groups) ? x.groups.filter(function (g) { return typeof g === 'string' && g.trim(); }).map(normalizeText) : []);
+        if (!names.length) names = [fallback];
+        var entry = seen[text];
+        if (entry) {
+          if (mirror) return; // customReplies 是分组内容的平铺镜像，不能算两遍
+          duplicates++;
+          names.forEach(function (n) { if (entry.groups.indexOf(n) < 0) entry.groups.push(n); });
+        } else {
+          entry = { text: text, groups: names }; seen[text] = entry; entries.push(entry);
+        }
+      });
+    }
+    if (Array.isArray(data)) add(data);
+    else if (data && typeof data === 'object') {
+      var name = typeof data.replyGroupName === 'string' ? normalizeText(data.replyGroupName) : fallback;
+      var grouping = data.cardGrouping && data.cardGrouping.groups;
+      var hasGroups = false;
+      if (Array.isArray(grouping)) grouping.forEach(function (g) {
+        if (!g || !Array.isArray(g.replies)) return;
+        hasGroups = true;
+        add(g.replies, typeof g.name === 'string' && g.name.trim() ? g.name.trim() : name);
+      });
+      if (Array.isArray(data.customReplies)) add(data.customReplies, name, hasGroups);
+      else if (Array.isArray(data.items)) add(data.items);
+      else if (Array.isArray(data.cards)) add(data.cards);
+      else if (Array.isArray(data.replies)) add(data.replies, name);
+    }
+    if (!recognized) throw new Error('未识别字卡格式：请使用 items、cards、customReplies 或分组 replies。');
+    if (!entries.length) throw new Error('文件中没有可收入的文字字卡，未建立空分组。');
+    return { entries: entries, duplicates: duplicates };
+  }
+
   function parseLines(text) {
     var seen = Object.create(null), lines = [], dup = 0;
     String(text).replace(/^﻿/, '').split(/\r\n|\n|\r/).forEach(function (raw) {
@@ -190,7 +232,7 @@
     uid: uid, clampNum: clampNum, normRange: normRange, randBetween: randBetween, pick: pick,
     rolePool: rolePool, drawReply: drawReply, shichen: shichen, hanNum: hanNum, upperNum: upperNum,
     durationText: durationText, roleState: roleState, graphemes: graphemes, pickQuan: pickQuan,
-    normalizeText: normalizeText, dedupeCards: dedupeCards, parseLines: parseLines
+    normalizeText: normalizeText, dedupeCards: dedupeCards, parseTextImport: parseTextImport, parseLines: parseLines
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ChisuCore = api;

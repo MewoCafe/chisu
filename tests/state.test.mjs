@@ -36,3 +36,26 @@ test('加载已有字卡自动去重并安排保存，保留已有角色名称',
   assert.equal(st.S.lib.card.items.filter(x=>x.text===data.lib.card.items[0].text).length,1);
   assert.ok(writes.includes('lib'));
 });
+
+test('第三方1300张字卡入库、分组与重复导入均正确，错误文件不留下空组', async () => {
+  const {st}=state();await st.load();
+  const replies=Array.from({length:1300},(_,i)=>'外部字卡 '+i);
+  const data={replyGroupName:'测试分组',customReplies:replies,cardGrouping:{groups:[{name:'测试分组',replies}]}};
+  const first=st.importTextData('card',data,'来源文件');
+  assert.equal(first.added,1300);assert.equal(first.skipped,0);
+  const group=st.S.lib.card.groups.find(g=>g.name==='测试分组');
+  assert.equal(st.S.lib.card.items.filter(i=>i.groups.includes(group.id)).length,1300);
+  const repeated=st.importTextData('card',data,'来源文件');
+  assert.equal(repeated.added,0);assert.equal(repeated.skipped,1300);
+  assert.equal(st.S.lib.card.groups.filter(g=>g.name==='测试分组').length,1);
+  const groupsBefore=st.S.lib.card.groups.length,itemsBefore=st.S.lib.card.items.length;
+  assert.throws(()=>st.importTextData('card',{wrong:['甲']},'空组'),/未识别/);
+  assert.equal(st.S.lib.card.groups.length,groupsBefore);assert.equal(st.S.lib.card.items.length,itemsBefore);
+});
+test('通过卷宗入口收入第三方回复文件时只合并字卡，保留角色和往来', async () => {
+  const {st}=state();await st.load();const role=st.currentRole();
+  st.S.messages[role.id].push({id:'keep',text:'保留往来'});
+  st.importAll(JSON.stringify({replyGroupName:'回复分组',customReplies:['外部新句']}));
+  assert.equal(st.currentRole().id,role.id);assert.equal(st.S.messages[role.id][0].id,'keep');
+  assert.ok(st.S.lib.card.items.some(i=>i.text==='外部新句'));
+});

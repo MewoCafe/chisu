@@ -63,3 +63,23 @@ test('字卡去重：归一换行与首尾空白，保留首张编号并合并�
 test('批添保留与对象原型同名的文本', () => {
   assert.deepEqual(C.parseLines('constructor\n__proto__\nconstructor'), {lines:['constructor','__proto__'], duplicates:1});
 });
+
+test('兼容第三方 customReplies 与 cardGrouping，不重复收入平铺镜像', () => {
+  const replies=Array.from({length:1300},(_,i)=>'测试字卡 '+i);
+  const parsed=C.parseTextImport({replyGroupName:'测试分组',customReplies:replies,cardGrouping:{groups:[{id:'external',name:'测试分组',replies}]}},'文件名');
+  assert.equal(parsed.entries.length,1300);assert.equal(parsed.duplicates,0);
+  assert.deepEqual(parsed.entries[1299],{text:'测试字卡 1299',groups:['测试分组']});
+});
+test('分组字卡保留归属及独有平铺条目，过滤非法对象', () => {
+  const parsed=C.parseTextImport({replyGroupName:'其他',customReplies:['甲','乙',null,{noText:'非法'},'丙'],cardGrouping:{groups:[{name:'一组',replies:['甲','乙']},{name:'二组',replies:['甲']}]}},'文件名');
+  assert.equal(parsed.entries.length,3);assert.deepEqual(parsed.entries[0].groups,['一组','二组']);
+  assert.deepEqual(parsed.entries[2],{text:'丙',groups:['其他']});
+});
+test('仍兼容普通数组、items/cards 导出及换行，空文件和未知格式明确报错', () => {
+  for(const data of [[' 甲\r\n乙 '],{items:[{text:' 甲\r\n乙 '}]},{cards:[' 甲\r\n乙 ']}]) {
+    assert.equal(C.parseTextImport(data,'收入').entries[0].text,'甲\n乙');
+  }
+  assert.throws(()=>C.parseTextImport({items:'不是数组'},'收入'),/未识别/);
+  assert.throws(()=>C.parseTextImport({customReplies:[null,{},123,'  ']},'收入'),/没有可收入/);
+  assert.deepEqual(C.parseTextImport({items:[{text:'甲',groups:['原组']}]},'收入').entries[0].groups,['原组']);
+});

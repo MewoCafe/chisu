@@ -250,26 +250,29 @@
   }
 
   function importFile() {
+    // 记录发起导入时的库，读文件期间切换页签也不会导入错库。
+    var target = lib;
     U.pickFile('.txt,.json,text/plain,application/json').then(function (files) {
       var f = files[0]; if (!f) return;
       return U.readText(f).then(function (text) {
-        var g = St.addGroup(St.S.lib, lib, '收入 · ' + f.name.replace(/\.[^.]+$/, '').slice(0, 8));
-        if (/\.json$/i.test(f.name)) {
-          var d = JSON.parse(text.replace(/^﻿/, ''));
-          var arr = Array.isArray(d) ? d : (d.items || d.cards || []);
-          if (isImg()) {
-            var n = 0;
-            arr.forEach(function (x) { var src = typeof x === 'string' ? x : x && x.src; if (src && /^(https?:|data:image\/)/.test(src)) { St.addItem(St.S.lib, lib, { src: src, name: (x && x.name) || '' }, [g.id]); n++; } });
-            U.toast('已收 ' + n + ' 幅。');
-          } else {
-            var r = addTexts(arr.map(function (x) { return typeof x === 'string' ? x : x && x.text; }).filter(Boolean), [g.id]);
-            U.toast('已收 ' + r.added + ' 件，略去重复 ' + r.skipped + ' 件。');
-          }
+        var fallback = '收入 · ' + f.name.replace(/\.[^.]+$/, '').slice(0, 8);
+        var json = /\.json$/i.test(f.name), d = json ? JSON.parse(text.replace(/^﻿/, '')) : null;
+        var gid;
+        if (target === 'card' || target === 'kao') {
+          var data = json ? d : C.parseLines(text).lines;
+          var result = St.importTextData(target, data, fallback);
+          gid = result.groupId;
+          U.toast('已收 ' + result.added + ' 件，略去重复 ' + result.skipped + ' 件。');
         } else {
-          if (isImg()) { var urls = text.split(/\s+/).filter(function (u) { return /^https?:\/\//.test(u); }); urls.forEach(function (u) { St.addItem(St.S.lib, lib, { src: u, url: true }, [g.id]); }); U.toast('已引 ' + urls.length + ' 幅。'); }
-          else { var r2 = addTexts(C.parseLines(text).lines, [g.id]); U.toast('已收 ' + r2.added + ' 件，略去重复 ' + r2.skipped + ' 件。'); }
+          var arr = json ? (Array.isArray(d) ? d : d && (d.items || d.cards)) : text.split(/\s+/);
+          if (!Array.isArray(arr)) throw new Error('此文件不是图库格式；文字回复请切换「字笺」再收入。');
+          var images = arr.map(function (x) { return typeof x === 'string' ? { src: x, name: '' } : x; }).filter(function (x) { return x && typeof x.src === 'string' && /^(https?:|data:image\/)/.test(x.src); });
+          if (!images.length) throw new Error('文件中没有可收入的图片，未建立空分组。');
+          var g = St.addGroup(St.S.lib, target, fallback); gid = g.id;
+          images.forEach(function (x) { St.addItem(St.S.lib, target, { src: x.src, name: x.name || '' }, [gid]); });
+          St.save('lib'); U.toast('已收 ' + images.length + ' 幅。');
         }
-        group = g.id; pageNo = 0; render();
+        if (lib === target) { group = gid; pageNo = 0; render(); }
       });
     }).catch(function (e) { U.toast(e.message || '此卷未能读取。'); });
   }
