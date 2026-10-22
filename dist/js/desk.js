@@ -72,6 +72,7 @@
     desk.innerHTML = $('#desk-' + next).innerHTML;
     desk.setAttribute('data-desk-style', next);
     refresh();
+    if (W.ChisuAlmanac) W.ChisuAlmanac.decorateDesk();
   }
 
   W.ChisuDesk = { applyStyle: applyStyle, refresh: refresh, pickBrush: pickBrush, inkPress: inkPress };

@@ -1,0 +1,97 @@
+/* 尺素 · 筒子叶：双框、版心、折口；新书笺独立展卷。 */
+.desk-additions{position:absolute;right:8%;top:23%;z-index:8;display:-webkit-box;display:flex;background:var(--paper);border-top:1px solid var(--ink-5);border-bottom:1px solid var(--ink-5)}
+.desk-additions button{font-size:12px;min-width:48px;min-height:32px;letter-spacing:.15em;padding:0 6px}
+.desk-additions button+button{border-left:1px solid var(--ink-5)}
+.book-simple .desk-additions{right:38px;top:12.5%}
+.day-chat-button{font-size:12px;color:var(--ink-3);min-width:34px;min-height:44px;margin-left:6px}
+#chat .chat-who{max-width:54%}
+.day-sheet{font-family:var(--ui-font);background:var(--paper);padding:18px 18px 28px}
+.tube-leaf{position:relative;border:2px solid var(--ink-2);padding:18px 18px 22px;background:var(--sheet);min-height:100%;box-shadow:5px 0 0 -3px var(--paper-3),8px 0 0 -5px var(--ink-5)}
+.tube-leaf:before{content:'';position:absolute;left:4px;right:4px;top:4px;bottom:4px;border:1px solid var(--ink-5);pointer-events:none}
+.tube-leaf:after{content:'';position:absolute;top:32%;right:7px;width:3px;height:34%;border-left:1px solid var(--ink-5);border-right:1px solid var(--ink-6);pointer-events:none}
+.day-ribbon{position:relative;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between;min-height:32px;border-bottom:3px double var(--ink-3)}
+.day-ribbon>span{font-size:10px;letter-spacing:.15em;color:var(--ink-3)}
+.day-corner{padding:8px 0 8px 10px;color:var(--cinnabar);font-size:12px;min-height:36px;letter-spacing:.12em}
+.day-title{padding:24px 0 18px;border-bottom:1px solid var(--ink-5)}
+.day-title>span{font-size:10px;letter-spacing:.18em;color:var(--ink-3)}
+.day-title h2{font-family:var(--title-font);font-size:38px;letter-spacing:.14em;line-height:1.4;margin:10px 0 0}
+.day-date{padding:17px 0;border-bottom:1px solid var(--ink-5);line-height:1.9;word-wrap:break-word}
+.day-date b{display:block;font-size:17px;letter-spacing:.12em}
+.day-date>span{display:block;font-size:12px;letter-spacing:.1em;color:var(--ink-3)}
+.day-person{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;padding:20px 0;border-bottom:3px double var(--ink-4)}
+.day-person img{width:48px;height:48px;padding:3px;border:1px solid var(--ink-4);object-fit:cover;margin-right:13px}
+.day-person h3{font-family:var(--title-font);font-size:26px;margin:0 0 5px;letter-spacing:.1em;word-wrap:break-word}
+.day-person small{font-size:11px;color:var(--ink-3)}
+.day-stamp{margin-left:auto;border:1px solid var(--cinnabar);outline:1px solid var(--cinnabar-2);outline-offset:2px;color:var(--cinnabar);font-family:var(--title-font);font-size:23px;padding:4px 7px;-webkit-transform:rotate(-4deg);transform:rotate(-4deg);flex-shrink:0}
+.day-facts{margin:0;display:grid;grid-template-columns:1fr 1fr}
+.day-facts>div{padding:17px 0;border-bottom:1px solid var(--ink-5);min-width:0}
+.day-facts>div+div{border-left:1px solid var(--ink-5);padding-left:16px}
+.day-facts dt{font-size:10px;color:var(--ink-3);letter-spacing:.3em;margin-bottom:9px}
+.day-facts dd{margin:0;font-size:16px;letter-spacing:.1em;line-height:1.7;word-wrap:break-word}
+.day-excerpt{padding:21px 0 12px;border-bottom:1px solid var(--ink-5)}
+.day-excerpt small,.calendar-poem>small{font-size:10px;color:var(--ink-3);letter-spacing:.17em}
+.day-excerpt p,.calendar-poem p{font-family:var(--chat-font);font-size:19px;line-height:1.9;letter-spacing:.07em;margin:12px 0;white-space:pre-wrap;word-wrap:break-word}
+.day-skill{padding:19px 0 8px;font-size:12px;letter-spacing:.1em}
+.day-skill b{float:right;color:var(--cinnabar)}
+.day-skill-track{clear:both;height:7px;margin-top:12px;background:var(--paper-3);border:1px solid var(--ink-5);padding:1px}
+.day-skill-track i{display:block;height:3px;background:var(--cinnabar)}
+.day-note{font-size:11px;line-height:1.9;color:var(--ink-3);letter-spacing:.08em;margin:12px 0;word-wrap:break-word}
+.day-actions{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between;margin-top:15px;border-top:1px solid var(--ink-5);padding-top:8px}
+.day-actions button{min-height:40px;font-size:12px;letter-spacing:.13em}
+.day-field{display:block;margin:0 0 18px;font-size:13px;line-height:1.8}
+.day-field>span{display:block;margin-bottom:6px;letter-spacing:.15em}
+.day-field input,.day-field select{display:block;width:100%;font-family:var(--ui-font);font-size:16px;min-height:44px;max-width:100%;padding:9px 7px;border:1px solid var(--ink-5);background:var(--sheet);border-radius:0}
+.day-two-fields{display:-webkit-box;display:flex}
+.day-two-fields>.day-field{-webkit-box-flex:1;flex:1;min-width:0}
+.day-two-fields>.day-field+.day-field{margin-left:14px}
+.day-check{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;font-size:14px;min-height:44px;margin-bottom:8px}
+.day-check input{margin:0 9px 0 0;width:18px;height:18px}
+.era-results{border-top:1px solid var(--ink-5)}
+.era-option{display:block;width:100%;padding:12px 4px;min-height:44px;border-bottom:1px solid var(--ink-5);text-align:left;font-size:13px;line-height:1.8}
+.era-option:active{color:var(--cinnabar)}
+.era-picked{padding:12px 0;font-size:14px;color:var(--cinnabar);line-height:1.8}
+.calendar-nav{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between;margin-top:10px}
+.calendar-nav b{font-size:18px;letter-spacing:.1em}
+.calendar-nav button{font-size:12px;min-height:44px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);border-top:3px double var(--ink-3);border-bottom:3px double var(--ink-3);padding:7px 0 10px}
+.cal-week{font-size:12px;text-align:center;line-height:32px;color:var(--ink-3)}
+.cal-day{position:relative;height:49px;min-width:0;padding:5px 0;color:var(--ink-2)}
+.cal-day b{position:relative;display:block;font-size:17px;line-height:22px}
+.cal-day small{position:relative;display:block;font-size:8px;line-height:14px;white-space:nowrap;letter-spacing:0;color:var(--ink-3)}
+.cal-day.today b{color:var(--cinnabar)}
+.cal-day.selected:before{content:'';position:absolute;left:2px;right:2px;top:2px;bottom:1px;border:1px solid var(--cinnabar);background:rgba(165,64,45,.04)}
+.cal-day.marked:after{content:'';position:absolute;left:50%;bottom:0;width:4px;height:4px;border-radius:50%;background:var(--cinnabar);margin-left:-2px}
+.day-selected{padding:16px 0 8px;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between;border-bottom:1px solid var(--ink-5)}
+.day-selected b{font-size:11px;line-height:1.9;padding-right:6px}
+.day-selected button{flex-shrink:0;font-size:12px;min-height:44px}
+.anniversary-item{padding:13px 0;border-bottom:1px solid var(--ink-5);display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between}
+.anniversary-item>div{min-width:0;padding-right:10px}
+.anniversary-item h3{font-family:var(--title-font);font-size:20px;line-height:1.6;margin:0 0 4px;word-wrap:break-word}
+.anniversary-item small{font-size:10px;color:var(--ink-3);line-height:1.8}
+.anniversary-item button{flex-shrink:0;min-height:44px;font-size:12px}
+.calendar-poem{margin-top:22px;padding-top:15px;border-top:1px solid var(--ink-5)}
+.calendar-poem cite{display:block;font-family:var(--ui-font);font-style:normal;font-size:11px;color:var(--ink-3);line-height:1.8;text-align:right}
+/* 夹批落在被圈字后，可随正文换行；圈线保持在字盒内。 */
+.quan:after{left:-1px;right:-1px;top:0;bottom:0}
+.entry-body .inline-zhupi{display:inline;margin:0 .25em;padding:0;font-family:var(--title-font);font-size:13px;line-height:1.85;letter-spacing:.04em;color:var(--cinnabar);text-align:left;white-space:pre-wrap;word-wrap:break-word;-webkit-transform:none;transform:none}
+.entry-body .inline-zhupi:before{content:'〔';font-size:12px;letter-spacing:0;opacity:.75}
+.entry-body .inline-zhupi:after{content:'〕';font-size:12px;opacity:.75}
+.entry-body .inline-zhupi.fresh{-webkit-animation:fadein .4s ease both;animation:fadein .4s ease both}
+@media(max-width:359px){
+ .day-sheet{padding:12px 12px 22px}.tube-leaf{padding:13px 13px 18px}.day-title h2{font-size:32px}.day-ribbon>span{font-size:9px}.day-date b{font-size:16px}.cal-day b{font-size:15px}.cal-day small{font-size:8px}.day-person h3{font-size:23px}
+ .book-simple .desk-additions{right:32px}.day-chat-button{min-width:30px;margin-left:2px}#chat .chat-who .t{margin-left:6px}
+}
+@media(max-height:640px){.book-simple .desk-additions{top:12.5%}}
+@media(max-height:440px){.book-simple .desk-additions{top:26px;right:32px}.book-simple .desk-head small{visibility:hidden}}
+.calendar-leaf .day-title{padding:16px 0 12px}
+.calendar-leaf .day-title h2{font-size:34px;margin-top:8px}
+.calendar-nav b{-webkit-box-flex:1;flex:1;min-width:0;margin:0 8px;text-align:center;font-size:16px;letter-spacing:.04em}
+.calendar-nav button{min-width:36px;flex-shrink:0}
+.calendar-leaf .cal-day{height:45px}
+.calendar-leaf .day-selected{padding:8px 0 4px}
+.calendar-leaf>.day-note{margin:8px 0}
+.calendar-leaf .calendar-poem{margin-top:14px;padding-top:12px}
+.entry .entry-body{max-width:100%;overflow-wrap:break-word;word-break:break-word}
+.entry .zhupi{max-width:100%;overflow-wrap:break-word;word-break:break-word}
+.day-person>div{-webkit-box-flex:1;flex:1;min-width:0;padding-right:10px}
+.day-person h3{overflow-wrap:break-word;word-break:break-word}

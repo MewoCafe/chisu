@@ -78,3 +78,12 @@ test('新卷与旧默认案式均用素笺，手动选择雅集后保存且不�
   legacy.st.importAll(JSON.stringify(saved));
   assert.equal(legacy.st.S.settings.bookStyle,'simple');
 });
+
+test('起居、每日摘句、自定纪年和纪念日随本机卷宗保存，不与字卡导入混淆', async()=>{
+ const {st}=state();await st.load();
+ st.S.settings.almanac={seed:'test',clock:{mode:'custom',label:'永宁',year:2026,month:10,day:22,yearNumber:1,anchorDay:20000},days:{'2026-10-22|r':{place:'书斋',mood:'清欢',skill:70,quote:'今日案语。'}},poems:{'2026-10-22':['山中相送罢，日暮掩柴扉。','王维','送别']},anniversaries:[{id:'a',name:'初逢',calendar:'lunar',year:2026,month:9,day:13,repeat:true}]};
+ const original=JSON.stringify(st.S.settings.almanac), backup=st.exportAll();
+ st.importAll(JSON.stringify({customReplies:['并入字卡。']}));assert.equal(JSON.stringify(st.S.settings.almanac),original);
+ const restored=state();await restored.st.load();restored.st.importAll(backup);
+ assert.equal(JSON.stringify(restored.st.S.settings.almanac),original);
+});

@@ -159,6 +159,7 @@
       W.ChisuSettings.init();
       W.ChisuChat.init(); W.ChisuCall.init(); W.ChisuLetters.init();
       W.ChisuLibrary.init(); W.ChisuRoles.init(); W.ChisuKeep.init();
+      W.ChisuAlmanac.init();
 
       // 目录式与陈设式共用入口，换案后仍由同一书案接住点击。
       $('#home').addEventListener('click', function (e) {

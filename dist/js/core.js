@@ -139,18 +139,18 @@
     return out;
   }
 
-  /* 朱批：在用户原句里挑两三个连续汉字圈点。 */
+  /* 朱批可落在句中任一汉字处，圈点不越过标点或换行。 */
   function pickQuan(text, random) {
     random = random || Math.random;
-    var s = String(text || '');
-    var spans = [];
-    var re = /[一-鿿]{2,}/g, m;
-    while ((m = re.exec(s))) spans.push({ start: m.index, text: m[0] });
-    if (!spans.length) return null;
-    var sp = pick(spans, random);
-    var len = Math.min(sp.text.length, 2 + Math.floor((Number(random()) || 0) * 2));
-    var off = Math.floor((Number(random()) || 0) * (sp.text.length - len + 1));
-    return { start: sp.start + off, length: len };
+    var s = String(text || ''), starts = [], re = /[一-鿿]+/g, m;
+    while ((m = re.exec(s))) {
+      for (var i = 0; i < m[0].length; i++) starts.push({ start: m.index + i, remaining: m[0].length - i });
+    }
+    if (!starts.length) return null;
+    var r = Math.max(0, Math.min(.999999, Number(random()) || 0));
+    var at = starts[Math.floor(r * starts.length)];
+    var len = 1 + Math.floor(Math.max(0, Math.min(.999999, Number(random()) || 0)) * Math.min(3, at.remaining));
+    return { start: at.start, length: len };
   }
 
   function normalizeText(t) {

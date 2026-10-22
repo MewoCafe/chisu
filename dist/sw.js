@@ -1,10 +1,10 @@
 /* 尺素 · 离线：同源静态文件先取网络、断网取缓存；通知点击回到页面。 */
-var VERSION = 'chisu-v3.0.10';
+var VERSION = 'chisu-v3.1.0';
 var FILES = [
   './', 'index.html', 'manifest.webmanifest',
-  'css/base.css', 'css/scenes.css', 'css/views.css', 'css/book.css', 'css/fonts.css',
+  'css/base.css', 'css/scenes.css', 'css/views.css', 'css/book.css', 'css/almanac.css', 'css/fonts.css',
   'js/core.js', 'js/util.js', 'js/state.js', 'js/engine.js', 'js/ink.js', 'js/desk.js', 'js/chat.js', 'js/call.js',
-  'js/letters.js', 'js/library.js', 'js/roles.js', 'js/keepalive.js', 'js/settings.js', 'js/app.js',
+  'js/letters.js', 'js/library.js', 'js/roles.js', 'js/keepalive.js', 'js/settings.js', 'js/app.js', 'js/almanac-core.js', 'js/almanac.js', 'vendor/lunar.js', 'data/eras.json',
   'icons/favicon-32.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png', 'icons/badge-96.png'
 ];
 

@@ -1,0 +1,19 @@
+尺素 · 岁时资料来源（2026-10-22）
+
+农历计算：6tail/lunar-javascript，MIT，Copyright (c) 2018 6tail。
+https://github.com/6tail/lunar-javascript
+代码与完整许可证见 ../vendor/lunar.js、../vendor/lunar-LICENSE.txt。
+算法农历不等于对历代历法的复原；古代日期以推算结果供故事纪年。
+
+每日摘句：chinese-poetry/chinese-poetry，MIT，Copyright (c) 2016 JackeyGao。
+https://github.com/chinese-poetry/chinese-poetry
+由全唐诗 poet.tang.0.json 与 poet.tang.1000.json 按句号分句，去重筛选4096句。
+保留作者、篇名；完整许可证见 poetry-LICENSE.txt。古代作品本身属于公版。
+诗词文件独立读取，界面每天只展示一句。
+
+历代年号：根据下列公开资料中的年号、起讫年、朝代等纪年事实整理，
+未引入其程序、注释或说明文本：
+https://github.com/qinghaoh/chinese-era-explorer/tree/master/src/data
+另补夏商周的朝代纪年入口、民国及常见日本年号。
+夏商周起年有争议，入口仅为约年；支持自定王年、年号与公元锚点。
+本应用的故事纪年按选定年号延续，并不自动重演历史改元。
