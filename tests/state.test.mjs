@@ -5,10 +5,10 @@ import {createRequire} from 'node:module';
 import {runInNewContext} from 'node:vm';
 const C = createRequire(import.meta.url)('../dist/js/core.js');
 function state(saved = {}) {
-  const writes = [];
-  const window = {ChisuCore:C, localStorage:{getItem:()=>null}, ChisuUtil:{get:k=>Promise.resolve(saved[k]), saveLater:k=>writes.push(k)}};
+  const writes = [], persisted = [];
+  const window = {ChisuCore:C, localStorage:{getItem:()=>null}, ChisuUtil:{get:k=>Promise.resolve(saved[k]), saveLater:k=>writes.push(k), flushAll:()=>Promise.resolve([]), set:(key,value)=>{persisted.push([key,value]);return Promise.resolve(true);}}};
   runInNewContext(readFileSync(new URL('../dist/js/state.js', import.meta.url),'utf8'), {window,navigator:{}});
-  return {st:window.ChisuState, writes};
+  return {st:window.ChisuState, writes, persisted};
 }
 test('初次角色与新增角色默认名为君', async () => {
   const {st} = state(); await st.load();
@@ -86,4 +86,12 @@ test('起居、每日摘句、自定纪年和纪念日随本机卷宗保存，�
  st.importAll(JSON.stringify({customReplies:['并入字卡。']}));assert.equal(JSON.stringify(st.S.settings.almanac),original);
  const restored=state();await restored.st.load();restored.st.importAll(backup);
  assert.equal(JSON.stringify(restored.st.S.settings.almanac),original);
+});
+
+test('换卷前将人物、字卡、往来与设置全部存妥，再允许刷新', async()=>{
+ const {st,persisted}=state();await st.load();const r=st.currentRole();
+ st.S.messages[r.id].push({id:'before-update',from:'me',text:'换卷仍留此句。'});
+ assert.equal(await st.prepareReload(),true);
+ assert.deepEqual(persisted.map(x=>x[0]).sort(),['settings','roles','lib','messages','letters','pending'].sort());
+ assert.equal(persisted.find(x=>x[0]==='messages')[1][r.id][0].id,'before-update');
 });

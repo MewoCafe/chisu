@@ -161,7 +161,10 @@
   };
   function save(key) { U.saveLater(key, getters[key]); }
   function saveAll() { Object.keys(getters).forEach(save); }
-  function flush() { U.flushAll(getters); }
+  function flush() { return U.flushAll(getters); }
+  function prepareReload() {
+    return Promise.resolve(flush()).then(function () { return Promise.all(Object.keys(getters).map(function (key) { return U.set(key, getters[key]()); })); }).then(function (results) { return results.every(function (ok) { return ok !== false; }); });
+  }
 
   function roleById(id) {
     for (var i = 0; i < (S.roles || []).length; i++) if (S.roles[i].id === id) return S.roles[i];
@@ -217,7 +220,7 @@
   }
 
   W.ChisuState = {
-    S: S, load: load, save: save, saveAll: saveAll, flush: flush,
+    S: S, load: load, save: save, saveAll: saveAll, flush: flush, prepareReload: prepareReload,
     newRole: newRole, normRole: normRole, roleById: roleById, currentRole: currentRole,
     avatarOf: avatarOf, selfAvatar: selfAvatar, addGroup: addGroup, addItem: addItem,
     exportAll: exportAll, importAll: importAll, importTextData: importTextData

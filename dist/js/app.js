@@ -89,16 +89,19 @@
     var season = m >= 3 && m <= 5 ? '春' : m >= 6 && m <= 8 ? '夏' : m >= 9 && m <= 11 ? '秋' : '冬';
     return STEM.charAt((y - 4) % 10) + BR.charAt((y - 4) % 12) + ' · ' + season;
   }
+  var introGeneration = 0;
   function playIntro() {
     var el = $('#intro');
     el.classList.remove('hidden', 'gone', 'play');
     void el.offsetWidth;
-    el.classList.add('play');
+    var generation = ++introGeneration;
+    W.requestAnimationFrame(function () { W.requestAnimationFrame(function () { if (generation === introGeneration && !el.classList.contains('gone')) el.classList.add('play'); }); });
     $('#intro-date').textContent = ganzhi(new Date());
   }
   function leaveIntro() {
     var el = $('#intro');
     if (el.classList.contains('gone')) return;
+    introGeneration++;
     el.classList.add('gone');
     St.S.settings.introSeen = true; St.save('settings');
     setTimeout(function () { el.classList.add('hidden'); }, 950);
@@ -160,6 +163,7 @@
       W.ChisuChat.init(); W.ChisuCall.init(); W.ChisuLetters.init();
       W.ChisuLibrary.init(); W.ChisuRoles.init(); W.ChisuKeep.init();
       W.ChisuAlmanac.init();
+      W.ChisuUpdater.init();
 
       // 目录式与陈设式共用入口，换案后仍由同一书案接住点击。
       $('#home').addEventListener('click', function (e) {

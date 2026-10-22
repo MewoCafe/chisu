@@ -18,15 +18,15 @@
   function lunarReady() {
     if (W.Solar) return Promise.resolve();
     if (!lunarTask) lunarTask = new Promise(function (resolve, reject) {
-      var script = h('script', { src: 'vendor/lunar.js?v=3.1.1' });
+      var script = h('script', { src: 'vendor/lunar.js?v=3.1.2' });
       script.onload = resolve;
       script.onerror = function () { lunarTask = null; script.parentNode.removeChild(script); reject(new Error('历书未能展卷，请连网后重试。')); };
       document.head.appendChild(script);
     });
     return lunarTask;
   }
-  function eras() { if (!eraTask) eraTask = json('data/eras.json?v=3.1.1').catch(function (e) { eraTask = null; throw e; }); return eraTask; }
-  function poemLibrary() { if (!poemTask) poemTask = json('data/poems.json?v=3.1.1').catch(function (e) { poemTask = null; throw e; }); return poemTask; }
+  function eras() { if (!eraTask) eraTask = json('data/eras.json?v=3.1.2').catch(function (e) { eraTask = null; throw e; }); return eraTask; }
+  function poemLibrary() { if (!poemTask) poemTask = json('data/poems.json?v=3.1.2').catch(function (e) { poemTask = null; throw e; }); return poemTask; }
   function trim(map, limit) { Object.keys(map).sort().slice(0, Math.max(0, Object.keys(map).length - limit)).forEach(function (k) { delete map[k]; }); }
   function solarNow() { return A.storyDate(store().clock, new Date(), W.Solar); }
   function dateLine(solar) {

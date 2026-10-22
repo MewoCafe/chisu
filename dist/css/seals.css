@@ -25,3 +25,5 @@
 .author-group-number{font-family:var(--ui-font);font-size:21px;letter-spacing:.12em;word-wrap:break-word}
 @media(max-width:359px){.calendar-heading p{font-size:21px}.author-note h2{font-size:27px}.author-group-number{font-size:18px}}
 #set-tabs{min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.update-note{position:fixed;z-index:300;top:8px;top:calc(8px + env(safe-area-inset-top));left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);max-width:90%;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;padding:5px 12px;background:var(--sheet);border:1px solid var(--ink-4);box-shadow:0 2px 6px rgba(31,33,31,.12);font:12px var(--ui-font);white-space:nowrap}
+.update-note button{min-height:38px;margin-left:15px;padding:4px;color:var(--cinnabar);font:inherit}

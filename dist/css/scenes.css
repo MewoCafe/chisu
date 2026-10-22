@@ -33,9 +33,9 @@
 .intro.play .intro-rule{-webkit-animation:ruleOut .9s cubic-bezier(.3,.7,.2,1) 2.4s both;animation:ruleOut .9s cubic-bezier(.3,.7,.2,1) 2.4s both}
 .intro.play .intro-seal-wrap{-webkit-animation:stamp .5s cubic-bezier(.3,1.6,.5,1) 3.3s both;animation:stamp .5s cubic-bezier(.3,1.6,.5,1) 3.3s both}
 .intro.play .intro-foot{-webkit-animation:fadein 1s ease 3.5s both;animation:fadein 1s ease 3.5s both}
-.lite .intro.play *,.reduced .intro.play *{-webkit-animation-duration:.5s!important;animation-duration:.5s!important;-webkit-animation-delay:0s!important;animation-delay:0s!important}
-.lite .intro-title span,.reduced .intro-title span{-webkit-filter:none;filter:none}
-.lite .intro-bloom{display:none}
+.reduced .intro.play *{-webkit-animation-duration:.5s!important;animation-duration:.5s!important;-webkit-animation-delay:0s!important;animation-delay:0s!important}
+.reduced .intro-title span{-webkit-filter:none;filter:none}
+
 
 @-webkit-keyframes dropFall{0%{opacity:0;-webkit-transform:translateY(0)}15%{opacity:1}88%{opacity:1}100%{opacity:0;-webkit-transform:translateY(45vh) scale(1.6,.4)}}
 @keyframes dropFall{0%{opacity:0;transform:translateY(0)}15%{opacity:1}88%{opacity:1}100%{opacity:0;transform:translateY(45vh) scale(1.6,.4)}}

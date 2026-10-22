@@ -174,7 +174,9 @@
     timers[key] = setTimeout(function () { delete timers[key]; idbSet(key, getter()); }, delay == null ? 250 : delay);
   }
   function flushAll(map) {
-    Object.keys(timers).forEach(function (k) { clearTimeout(timers[k]); delete timers[k]; if (map[k]) idbSet(k, map[k]()); });
+    var tasks = [];
+    Object.keys(timers).forEach(function (k) { clearTimeout(timers[k]); delete timers[k]; if (map[k]) tasks.push(idbSet(k, map[k]())); });
+    return Promise.all(tasks);
   }
 
   /* —— 图片压缩：长边 ≤ max，优先 webp，GIF 原样保留（限大小） —— */

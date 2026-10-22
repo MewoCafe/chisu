@@ -107,7 +107,7 @@
   /* —— 离线（Service Worker）与安装 —— */
   function initSW() {
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-    navigator.serviceWorker.register('sw.js').then(function (reg) { swReg = reg; }, function () { /* */ });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) { swReg = reg; }, function () { /* */ });
     navigator.serviceWorker.ready.then(function (reg) { swReg = reg; });
   }
 

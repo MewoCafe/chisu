@@ -78,7 +78,7 @@
         U.toast(S.bookStyle === 'simple' ? '已换素笺案式。' : '已复雅集案式。');
       });
       pane.appendChild(h('div', { class: 'row desk-style-row' }, [h('span', { class: 'row-label' }, ['案式', h('small', { text: '雅集陈笔墨，素笺留清白。随心换案，往来如故。' })]), style]));
-      pane.appendChild(sw('lite', '轻墨', '去掉纸纹、光影与晕染，旧手机更顺。初次展卷时已按本机性能自动择定。'));
+      pane.appendChild(sw('lite', '轻墨', '简去内页纸纹与光影，旧手机更顺；开场仍用繁式。初次按本机性能择定。'));
       pane.appendChild(sw('reduced', '少动', '开场与翻卷只留淡入淡出，逐字落墨即时显出。'));
       pane.appendChild(sw('tts', '传音诵读', '传音时以系统语音念出对方的话。'));
       pane.appendChild(h('div', { class: 'seal-row', style: 'justify-content:flex-start' }, h('button', { class: 'link ink', type: 'button', text: '重看开场', onclick: function () { W.ChisuApp.replayIntro(); } })));
@@ -121,6 +121,7 @@
       else if (K.canInstall()) inst.appendChild(h('button', { class: 'link ink', type: 'button', text: '留此案于桌前（安装）', onclick: function () { K.install().then(function (ok) { if (ok) U.toast('已留于桌前。'); render(); }); } }));
       else inst.innerHTML = '<b>留此案于桌前：</b>以浏览器菜单「添加到主屏幕 / 安装应用」，即可如应用般展卷，离线亦可用。';
       pane.appendChild(inst);
+      pane.appendChild(h('div', { class: 'row' }, [h('span', { class: 'row-label' }, ['此卷 ' + W.ChisuUpdater.version, h('small', { text: '版号与离线卷同步核验' })]), h('button', { class: 'link ink', type: 'button', text: '检查新卷', onclick: function () { W.ChisuUpdater.check(true); } })]));
       pane.appendChild(h('p', { class: 'ed-note', text: '一切只存于本机此浏览器之中。清理浏览器数据前，请先誊出卷宗。' }));
     }
   }
