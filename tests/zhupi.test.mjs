@@ -17,7 +17,7 @@ function reply(chance) {
 test('朱批实际回笔流程：触发后圈选原句、取批语并保存往来', () => {
   const {S,message,saved,events}=reply(100);
   assert.equal(events.length,1);assert.equal(message.zhupi.note,'此句甚好。');
-  assert.ok(message.zhupi.length>=1 && message.zhupi.length<=3);assert.ok(message.text.slice(message.zhupi.start,message.zhupi.start+message.zhupi.length));
+  assert.ok(message.zhupi.length>=1 && message.zhupi.length<=5);assert.ok(message.text.slice(message.zhupi.start,message.zhupi.start+message.zhupi.length));
   assert.equal(S.messages.r.length,2);assert.equal(S.messages.r[1].from,'peer');assert.ok(saved.includes('messages'));
 });
 test('朱批关闭时不修改原句，角色回笔仍正常', () => {

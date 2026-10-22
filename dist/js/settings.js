@@ -83,6 +83,23 @@
       pane.appendChild(sw('tts', '传音诵读', '传音时以系统语音念出对方的话。'));
       pane.appendChild(h('div', { class: 'seal-row', style: 'justify-content:flex-start' }, h('button', { class: 'link ink', type: 'button', text: '重看开场', onclick: function () { W.ChisuApp.replayIntro(); } })));
     }
+    if (sec === 'author') {
+      pane.appendChild(h('div', { class: 'sect-h' }, [h('b', { text: '六' }), '作者', h('small', { text: '识得执笔人' })]));
+      var bio = h('article', { class: 'author-note' });
+      bio.appendChild(h('small', { class: 'author-kicker', text: '尺素 · 制作者' }));
+      bio.appendChild(h('h2', { text: '小狗咖啡猫' }));
+      bio.appendChild(h('p', { text: '案上尺素，为小狗咖啡猫所制。借一纸笔墨，安放几句闲话；若能与君换得片刻清欢，便不负此番折腾。' }));
+      bio.appendChild(h('div', { class: 'author-links' }, [
+        h('a', { href: 'https://xhslink.cn/o/8PBH9m493hk', target: '_blank', rel: 'noopener noreferrer', text: '赴小红书 · 寻制作者' }),
+        h('a', { href: 'https://github.com/MewoCafe/chisu', target: '_blank', rel: 'noopener noreferrer', text: '往 GitHub · 阅尺素原稿' })
+      ]));
+      bio.appendChild(h('p', { class: 'author-aside', text: '小红书已有一千六百八十八位同好相伴。点上方链接，即可来访。' }));
+      bio.appendChild(h('h3', { text: '内测小聚' }));
+      bio.appendChild(h('p', { text: '尺素内测 QQ 群' }));
+      bio.appendChild(h('div', { class: 'author-group-number', text: '1063822040' }));
+      bio.appendChild(h('p', { text: '尺素尚在内测，先邀同好共试。群满二百人即锁群，届时再议正式上线；若未满员，亦可能暂不公开发行。去留未定，诸事以作者后续告知为准。' }));
+      pane.appendChild(bio);
+    }
     if (sec === 'file') {
       pane.appendChild(h('div', { class: 'sect-h' }, [h('b', { text: '五' }), '卷宗', h('small', { text: '备份与迁移' })]));
       pane.appendChild(h('div', { class: 'row' }, [h('span', { class: 'row-label' }, ['誊出全部', h('small', { text: '人物、墨藏、往来书信，一卷带走' })]), h('button', { class: 'link ink', type: 'button', text: '誊出', onclick: function () {

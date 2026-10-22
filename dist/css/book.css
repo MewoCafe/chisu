@@ -1,3 +1,5 @@
+/* 开场统一沿用繁式动画；案式只切换内页。 */
+.intro-frame{display:none}
 /* 背景独立于案式：只调整纸色与界线，不移动原有陈设。 */
 .paper-tex{background-image:none}
 .desk{background:var(--paper)}
@@ -7,10 +9,9 @@
 .paper-sheet.paper-tex{background-color:var(--sheet);background-image:none}
 #chat{background-color:var(--sheet)}
 #chat .chat-paper{background-image:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(61,64,60,.035) 47px,rgba(61,64,60,.035) 48px)}
-.intro-frame,.chat-running-head{display:none}
+.chat-running-head{display:none}
 /* 素笺案式保留为可选布局，雅集案式使用原有界面。 */
-.book-simple .intro-frame,.book-simple .chat-running-head{display:block}
-.book-simple .intro-bloom,.book-simple .intro-drop{display:none}
+.book-simple .chat-running-head{display:block}
 .book-simple .desk:before{display:none}
 
 .book-simple .paper-tex{background-image:none}
@@ -19,18 +20,6 @@
 .book-simple .book-fishtail{position:absolute;left:50%;top:-2px;width:18px;height:18px;margin-left:-9px;border-left:1px solid currentColor;border-right:1px solid currentColor;background:var(--paper)}
 .book-simple .book-fishtail:before,.book-simple .book-fishtail:after{content:'';position:absolute;left:0;top:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:11px solid currentColor}
 .book-simple .book-fishtail:after{top:-3px;border-top-color:var(--paper)}
-.book-simple .intro-frame{left:24px;right:24px;top:10%;bottom:12%;background:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(61,64,60,.065) 47px,rgba(61,64,60,.065) 48px)}
-.book-simple .intro-title{left:0;right:0;top:27%;width:auto;margin:0;padding-left:.25em;font-size:76px;letter-spacing:.25em;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb}
-.book-simple .intro-title span{opacity:1;-webkit-filter:none;filter:none}
-.book-simple .intro.play .intro-title span{-webkit-animation:fadein .6s ease both;animation:fadein .6s ease both}
-.book-simple .intro.play .intro-title span:nth-child(1),.book-simple .intro.play .intro-title span:nth-child(2){-webkit-animation-delay:0s;animation-delay:0s}
-.book-simple .intro-verse,.book-simple .intro-verse2{left:0;right:0;margin:0;text-align:center;-webkit-writing-mode:horizontal-tb;writing-mode:horizontal-tb;color:var(--ink-3)}
-.book-simple .intro-verse{top:46%;font-size:19px;letter-spacing:.6em;text-indent:.6em}
-.book-simple .intro-verse2{top:53%;letter-spacing:.4em;text-indent:.4em}
-.book-simple .intro-rule{display:none}
-.book-simple .intro.play .intro-verse,.book-simple .intro.play .intro-verse2,.book-simple .intro.play .intro-seal-wrap,.book-simple .intro.play .intro-foot{-webkit-animation:fadein .6s ease .15s both;animation:fadein .6s ease .15s both}
-.book-simple .intro-seal-wrap{top:66%}
-.book-simple .intro-foot{left:26px;right:26px}
 .book-simple .desk{background:var(--paper)}
 .book-simple .desk-frame{left:18px;right:18px;top:26px;top:calc(26px + env(safe-area-inset-top));bottom:22px;bottom:calc(22px + env(safe-area-inset-bottom))}
 .book-simple .desk-head{left:38px;right:38px;top:56px;top:calc(56px + env(safe-area-inset-top));-webkit-box-align:center;align-items:center;-webkit-box-pack:justify;justify-content:space-between}
@@ -96,8 +85,6 @@
 .book-simple .desk-time i{display:none}
 .book-simple .who-btn span{font-size:10px}
 .book-simple .who-btn b{letter-spacing:.1em}
-.book-simple .intro-title{font-size:64px}
-.book-simple .intro-foot .latin{display:none}
 .book-simple .chat-stage{padding-left:13px;padding-right:13px}
 }
 @media(max-height:640px){
@@ -109,12 +96,6 @@
 .book-simple .desk-index{top:57%;bottom:106px}
 .book-simple .desk-index .tool{min-height:54px}
 .book-simple .desk-foot{bottom:38px;bottom:calc(38px + env(safe-area-inset-bottom))}
-.book-simple .intro-title{top:24%;font-size:62px}
-.book-simple .intro-verse{top:44%}
-.book-simple .intro-verse2{top:51%}
-.book-simple .intro-seal-wrap{top:63%}
-.book-simple .intro-seal{width:48px;height:48px;line-height:44px;font-size:24px}
-.book-simple .intro-seal-wrap small{margin-top:12px}
 }
 @media(max-height:440px){
 .book-simple .desk{overflow-y:auto}

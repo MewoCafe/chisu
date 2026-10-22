@@ -17,3 +17,8 @@ https://github.com/qinghaoh/chinese-era-explorer/tree/master/src/data
 另补夏商周的朝代纪年入口、民国及常见日本年号。
 夏商周起年有争议，入口仅为约年；支持自定王年、年号与公元锚点。
 本应用的故事纪年按选定年号延续，并不自动重演历史改元。
+
+印章设计参照：
+https://github.com/shanleiguang/vYinn
+https://github.com/dacnay816y62-hub/chinese-poster-skill
+学习印框、印文、破残分层与阴阳文布局思路；本项目的SVG刻线与残损纹理为重新绘制，未复制其程序、字体或印稿。

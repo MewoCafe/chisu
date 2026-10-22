@@ -149,7 +149,7 @@
     if (!starts.length) return null;
     var r = Math.max(0, Math.min(.999999, Number(random()) || 0));
     var at = starts[Math.floor(r * starts.length)];
-    var len = 1 + Math.floor(Math.max(0, Math.min(.999999, Number(random()) || 0)) * Math.min(3, at.remaining));
+    var len = 1 + Math.floor(Math.max(0, Math.min(.999999, Number(random()) || 0)) * Math.min(5, at.remaining));
     return { start: at.start, length: len };
   }
 

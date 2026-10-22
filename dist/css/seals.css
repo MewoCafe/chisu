@@ -1,0 +1,27 @@
+/* 印框、印文、残损分层；矢量刻线保持小尺寸清楚。 */
+.intro-seal,.day-stamp,.paper-sheet .seal,.float-note .fn-seal{border:0;outline:0;background-color:transparent;background-repeat:no-repeat;background-size:100% 100%;font-size:0!important;color:transparent}
+.intro-seal{background-image:url('../assets/seals/qi.svg')}
+.day-stamp{width:40px;height:44px;padding:0;background-image:url('../assets/seals/an.svg')}
+.paper-sheet .seal{background-image:url('../assets/seals/su.svg')}
+.float-note .fn-seal{background-image:url('../assets/seals/zha.svg')}
+.book-simple .paper-sheet .seal{border:0;outline:0;background-color:transparent;background-image:url('../assets/seals/su.svg')}
+.seal-send,.seal-mini span,.seal-btn,.seal-toggle,.letter-seal-new,.paper-new{outline:0;border:0;background-color:transparent;background-repeat:no-repeat;background-size:100% 100%;-webkit-mask-image:url('../assets/seals/wear.svg');mask-image:url('../assets/seals/wear.svg');-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.seal-send,.seal-mini span,.seal-btn.cinnabar{background-image:url('../assets/seals/rim.svg');color:var(--cinnabar)}
+.seal-btn{background-image:url('../assets/seals/rim-ink.svg')}
+.seal-toggle{background-image:url('../assets/seals/rim-muted.svg')}
+.seal-toggle[aria-checked="true"],.seal-btn.solid,.letter-seal-new,.paper-new{border:0;background-color:transparent;background-image:url('../assets/seals/solid.svg');color:var(--sheet)}
+.seal-send:active{background-color:transparent;background-image:url('../assets/seals/solid.svg');color:var(--sheet)}
+.cal-day.selected:before{border:0;background-image:url('../assets/seals/rim.svg');background-size:100% 100%;-webkit-transform:rotate(-2deg);transform:rotate(-2deg)}
+.calendar-leaf .calendar-heading{margin:0;padding:16px 0 18px;border-top:0;border-bottom:1px solid var(--ink-5)}
+.calendar-heading p{font-family:var(--chat-font);font-size:23px;line-height:1.7;margin:12px 0 9px;letter-spacing:.06em}
+.calendar-heading cite{font-size:11px}
+.author-note{padding:14px 0 28px;border-top:3px double var(--ink-3);font-family:var(--ui-font)}
+.author-kicker{font-size:11px;letter-spacing:.18em;color:var(--ink-3)}
+.author-note h2{font-family:var(--title-font);font-size:30px;line-height:1.6;letter-spacing:.1em;margin:12px 0}
+.author-note h3{font-family:var(--title-font);font-size:22px;margin:24px 0 10px;padding-top:16px;border-top:1px solid var(--ink-5)}
+.author-note p{font-size:14px;line-height:2.1;letter-spacing:.05em;word-wrap:break-word}
+.author-note .author-aside{font-size:11px;line-height:1.9;color:var(--ink-3)}
+.author-links a{display:block;padding:13px 0;min-height:44px;border-bottom:1px solid var(--ink-5);color:var(--cinnabar);font-size:14px;text-decoration:none;line-height:1.9}
+.author-group-number{font-family:var(--ui-font);font-size:21px;letter-spacing:.12em;word-wrap:break-word}
+@media(max-width:359px){.calendar-heading p{font-size:21px}.author-note h2{font-size:27px}.author-group-number{font-size:18px}}
+#set-tabs{min-height:0;overflow-y:auto;overscroll-behavior:contain}

@@ -18,15 +18,15 @@
   function lunarReady() {
     if (W.Solar) return Promise.resolve();
     if (!lunarTask) lunarTask = new Promise(function (resolve, reject) {
-      var script = h('script', { src: 'vendor/lunar.js?v=3.1.0' });
+      var script = h('script', { src: 'vendor/lunar.js?v=3.1.1' });
       script.onload = resolve;
       script.onerror = function () { lunarTask = null; script.parentNode.removeChild(script); reject(new Error('历书未能展卷，请连网后重试。')); };
       document.head.appendChild(script);
     });
     return lunarTask;
   }
-  function eras() { if (!eraTask) eraTask = json('data/eras.json?v=3.1.0').catch(function (e) { eraTask = null; throw e; }); return eraTask; }
-  function poemLibrary() { if (!poemTask) poemTask = json('data/poems.json?v=3.1.0').catch(function (e) { poemTask = null; throw e; }); return poemTask; }
+  function eras() { if (!eraTask) eraTask = json('data/eras.json?v=3.1.1').catch(function (e) { eraTask = null; throw e; }); return eraTask; }
+  function poemLibrary() { if (!poemTask) poemTask = json('data/poems.json?v=3.1.1').catch(function (e) { poemTask = null; throw e; }); return poemTask; }
   function trim(map, limit) { Object.keys(map).sort().slice(0, Math.max(0, Object.keys(map).length - limit)).forEach(function (k) { delete map[k]; }); }
   function solarNow() { return A.storyDate(store().clock, new Date(), W.Solar); }
   function dateLine(solar) {
@@ -144,7 +144,10 @@
       function render() {
         var body = U.clear(sh.body), a = store(), page = h('div', { class: 'tube-leaf calendar-leaf' });
         page.appendChild(h('div', { class: 'day-ribbon' }, [h('span', { text: '岁时有序 · 相逢有期' }), button('改元', function () { clockEditor(function () { today = solarNow(); selected = today; year = today.getYear(); month = today.getMonth(); render(); }); }, 'day-corner')]));
-        page.appendChild(heading(A.eraLabel(a.clock, today, C.hanNum), '月令小记'));
+        var poem = h('div', { class: 'calendar-poem calendar-heading', 'aria-live': 'polite' });
+        poem.appendChild(h('small', { text: A.eraLabel(a.clock, today, C.hanNum) }));
+        poem.appendChild(note('正在启诗卷……'));
+        page.appendChild(poem);
         var nav = h('div', { class: 'calendar-nav' }, [button('前月', function () { step(-1); }), h('b', { text: (year <= 0 ? '前' + (1 - year) : year) + ' · ' + C.hanNum(month) + '月' }), button('后月', function () { step(1); })]); page.appendChild(nav);
         var grid = h('div', { class: 'calendar-grid', role: 'group', 'aria-label': '月历' });
         ['日','一','二','三','四','五','六'].forEach(function (w) { grid.appendChild(h('span', { class: 'cal-week', text: w })); });
@@ -170,9 +173,8 @@
           var n = (e.calendar === 'lunar' ? l.getYear() : selected.getYear()) - e.year;
           page.appendChild(h('article', { class: 'anniversary-item' }, [h('div', {}, [h('h3', { text: e.name }), h('small', { text: (e.calendar === 'lunar' ? '农历' : '公历') + ' · ' + (n ? '已过' + C.hanNum(n) + '载' : '初记此日') + (e.repeat ? ' · 岁岁相逢' : '') })]), button('修改', function () { editAnniversary(selected, render, e); })]));
         });
-        var poem = h('div', { class: 'calendar-poem', 'aria-live': 'polite' }); poem.appendChild(note('今日摘句 · 正在启诗卷……')); page.appendChild(poem);
         var poemDate = new Date(), poemKey = A.key(poemDate);
-        function paintPoem(p) { U.clear(poem); poem.appendChild(h('small', { text: '今日摘句 · 一日一句' })); poem.appendChild(h('p', { text: p[0] })); poem.appendChild(h('cite', { text: p[1] + '《' + p[2] + '》' })); }
+        function paintPoem(p) { U.clear(poem); poem.appendChild(h('small', { text: A.eraLabel(a.clock, today, C.hanNum) + ' · 今日摘句' })); poem.appendChild(h('p', { text: p[0] })); poem.appendChild(h('cite', { text: p[1] + '《' + p[2] + '》' })); }
         if (a.poems[poemKey]) paintPoem(a.poems[poemKey]);
         else poemLibrary().then(function (rows) {
           if (!a.poems[poemKey]) { a.poems[poemKey] = rows[A.index(a.seed + 'poem', A.realDay(poemDate), rows.length)]; trim(a.poems, 90); save(); }

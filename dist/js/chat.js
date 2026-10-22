@@ -34,12 +34,11 @@
         var t = m.text, z = m.zhupi;
         body.appendChild(document.createTextNode(t.slice(0, z.start)));
         body.appendChild(h('span', { class: 'quan ink-' + ((z.start + String(m.id).length) % 3), text: t.slice(z.start, z.start + z.length) }));
-        body.appendChild(h('span', { class: 'zhupi inline-zhupi' + (live && z.fresh ? ' fresh' : ''), text: z.note }));
         body.appendChild(document.createTextNode(t.slice(z.start + z.length)));
       } else body.textContent = m.text;
     }
     el.appendChild(body);
-    if (me && m.zhupi && m.zhupi.start < 0) {
+    if (me && m.zhupi) {
       var zp = h('div', { class: 'zhupi' + (live && m.zhupi.fresh ? ' fresh' : ''), text: m.zhupi.note });
       el.appendChild(zp);
     }

@@ -71,12 +71,8 @@
 .anniversary-item button{flex-shrink:0;min-height:44px;font-size:12px}
 .calendar-poem{margin-top:22px;padding-top:15px;border-top:1px solid var(--ink-5)}
 .calendar-poem cite{display:block;font-family:var(--ui-font);font-style:normal;font-size:11px;color:var(--ink-3);line-height:1.8;text-align:right}
-/* 夹批落在被圈字后，可随正文换行；圈线保持在字盒内。 */
+/* 圈点随原字定位，圈线保持在字盒内；朱批仍列于原句下方。 */
 .quan:after{left:-1px;right:-1px;top:0;bottom:0}
-.entry-body .inline-zhupi{display:inline;margin:0 .25em;padding:0;font-family:var(--title-font);font-size:13px;line-height:1.85;letter-spacing:.04em;color:var(--cinnabar);text-align:left;white-space:pre-wrap;word-wrap:break-word;-webkit-transform:none;transform:none}
-.entry-body .inline-zhupi:before{content:'〔';font-size:12px;letter-spacing:0;opacity:.75}
-.entry-body .inline-zhupi:after{content:'〕';font-size:12px;opacity:.75}
-.entry-body .inline-zhupi.fresh{-webkit-animation:fadein .4s ease both;animation:fadein .4s ease both}
 @media(max-width:359px){
  .day-sheet{padding:12px 12px 22px}.tube-leaf{padding:13px 13px 18px}.day-title h2{font-size:32px}.day-ribbon>span{font-size:9px}.day-date b{font-size:16px}.cal-day b{font-size:15px}.cal-day small{font-size:8px}.day-person h3{font-size:23px}
  .book-simple .desk-additions{right:32px}.day-chat-button{min-width:30px;margin-left:2px}#chat .chat-who .t{margin-left:6px}
